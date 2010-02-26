@@ -1,0 +1,6 @@
+#!/bin/bash
+#TO Modify
+#########################################
+source /sge/default/common/settings.sh
+#########################################
+qhost -xml > $1
