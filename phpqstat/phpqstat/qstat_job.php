@@ -9,11 +9,13 @@
 </head>
 
 <?php
+require('time_duration.php');
 $owner  = $_GET['owner'];
 $jobid  = $_GET['jobid'];
+$jobstat  = $_GET['jobstat'];
 echo "<body><table align=center width=95% border=\"1\" cellpadding=\"0\" cellspacing=\"0\"><tbody>";
 echo "<tr><td><h1>PHPQstat</h1></td></tr>
-      <tr><td CLASS=\"bottom\" align=center><a href=\"qstat.php?owner=$owner\">Home</a> *  <a href=\"qhost.php?owner=$owner\">Hosts status</a> *  <a href=\"qstat?owner=$owner\">Queue status</a> * <a href=\"qstat_user.php?owner=$owner\">Jobs status ($owner)</a> * <a href=\"about.php?owner=$owner\">About PHPQstat</a></td></tr>";
+      <tr><td CLASS=\"bottom\" align=center><a href='index.php'>Home</a> *  <a href=\"qhost.php?owner=$owner\">Hosts status</a> *  <a href=\"qstat?owner=$owner\">Queue status</a> * <a href=\"qstat_user.php?owner=$owner\">Jobs status ($owner)</a> * <a href=\"about.php?owner=$owner\">About PHPQstat</a></td></tr>";
 ?>
       <td>
 <br>
@@ -36,8 +38,8 @@ $token = "";
 for($i = 0; $i < $password_length; $i ++) {
   $token .= $alfa[rand(0, strlen($alfa))];
 }
-
-$out = exec("./gexml -j $jobid -u all -o /tmp/$token.xml");
+if($jobstat){$jobstatflag="-s $jobstat";}else{$jobstatflag="";}
+$out = exec("./gexml -j $jobid $jobstatflag -u all -o /tmp/$token.xml");
 
 $qstat = simplexml_load_file("/tmp/$token.xml");
 
@@ -46,7 +48,8 @@ $qstat = simplexml_load_file("/tmp/$token.xml");
 $job_name=$qstat->djob_info->element[0]->JB_job_name;
 $job_owner=$qstat->djob_info->element[0]->JB_owner;
 $job_group=$qstat->djob_info->element[0]->JB_group;
-$job_st=$qstat->djob_info->element[0]->JB_submission_time;
+$job_ust=$qstat->djob_info->element[0]->JB_submission_time;
+$job_st=date(r,number_format($job_ust, 0, '', ''));
 $job_qn=$qstat->djob_info->element[0]->JB_hard_queue_list->destin_ident_list->QR_name;
 $job_pe=$qstat->djob_info->element[0]->JB_pe;
 $job_slots=$qstat->djob_info->element[0]->JB_pe_range->ranges->RN_min;
@@ -92,12 +95,12 @@ echo "	<table align=center width=95% border=\"1\" cellpadding=\"0\" cellspacing=
                 <td>MaxVMem (M)</td>
                 </tr>
                 <tr>
-                <td>$usage_stats[0]</td>
-                <td>$usage_stats[1]</td>
-                <td>$usage_stats[2]</td>
-                <td>$usage_stats[3]</td>
-                <td>$usage_stats[4]</td>
-                <td>$usage_stats[5]</td>
+                <td>".time_duration($usage_stats[0])."</td>
+                <td>".number_format($usage_stats[1], 2, '.', '')."</td>
+                <td>".number_format($usage_stats[2], 2, '.', '')."</td>
+                <td>".number_format($usage_stats[3], 2, '.', '')."</td>
+                <td>".number_format($usage_stats[4]/1024/1024, 2, '.', '')."</td>
+                <td>".number_format($usage_stats[5]/1024/1024, 2, '.', '')."</td>
               </tr>	  
            </tbody>
 	</table><br>";

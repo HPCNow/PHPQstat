@@ -11,16 +11,12 @@
 </head>
 <?php
 $owner  = $_GET['owner'];
+$jobstat  = $_GET['jobstat'];
+$queue  = $_GET['queue'];
+echo "<body><table align=center width=95% border=\"1\" cellpadding=\"0\" cellspacing=\"0\"><tbody>";
+echo "<tr><td><h1>PHPQstat</h1></td></tr>
+      <tr><td CLASS=\"bottom\" align=center><a href='index.php'>Home</a> *  <a href=\"qhost.php?owner=$owner\">Hosts status</a> *  <a href=\"qstat?owner=$owner\">Queue status</a> * <a href=\"qstat_user.php?owner=$owner\">Jobs status ($owner)</a> * <a href=\"about.php?owner=$owner\">About PHPQstat</a></td></tr>";
 ?>
-<body>
-<table align=center width=95% border="1" cellpadding="0" cellspacing="0">
-  <tbody>
-    <tr>
-      <td><h1>PHPQstat</h1></td>
-    </tr>
-    <tr>
-      <td CLASS="bottom" align=center><a href="qstat.php?owner=<?php echo $owner; ?>">Home</a> *  <a href="qhost.php?owner=<?php echo $owner; ?>">Hosts status</a> *  <a href="qstat?owner=<?php echo $owner; ?>">Queue status</a> * <a href="qstat_user.php?owner=<?php echo $owner; ?>">Jobs status (<?php echo $owner; ?>)</a> * <a href="about.php?owner=<?php echo $owner; ?>">About PHPQstat</a></td>
-    </tr>
     <tr>
       <td>
 <br>
@@ -32,7 +28,7 @@ $owner  = $_GET['owner'];
                 <td>Priority</td>
                 <td>Name</td>
                 <td>State</td>
-                <td>Queue</td>
+                <td>Queue </td>
                 <td>Submission Time</td>
                 <td>PE</td>
                 <td>Slots</td>
@@ -53,7 +49,11 @@ $token = "";
 for($i = 0; $i < $password_length; $i ++) {
   $token .= $alfa[rand(0, strlen($alfa))];
 }
-$out = exec("./gexml -u $owner -o /tmp/$token.xml");
+
+if($jobstat){$jobstatflag="-s $jobstat";}else{$jobstatflag="";}
+if($queue){$queueflag="-q $queue";}else{$queueflag="";}
+
+$out = exec("./gexml -u $owner $jobstatflag $queueflag -o /tmp/$token.xml");
 
 $qstat = simplexml_load_file("/tmp/$token.xml");
 

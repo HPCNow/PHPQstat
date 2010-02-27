@@ -1,6 +1,7 @@
 #!/bin/bash
-#TO Modify
+# Modify your SGE_ROOT
 #########################################
-source /sge/default/common/settings.sh
+export SGE_ROOT=/sge
+source $SGE_ROOT/default/common/settings.sh
 #########################################
 qhost -xml > $1

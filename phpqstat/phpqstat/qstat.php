@@ -13,7 +13,7 @@
 $owner  = $_GET['owner'];
 echo "<body><table align=center width=95% border=\"1\" cellpadding=\"0\" cellspacing=\"0\"><tbody>";
 echo "<tr><td><h1>PHPQstat</h1></td></tr>
-      <tr><td CLASS=\"bottom\" align=center><a href=\"qstat.php?owner=$owner\">Home</a> *  <a href=\"qhost.php?owner=$owner\">Hosts status</a> *  <a href=\"qstat?owner=$owner\">Queue status</a> * <a href=\"qstat_user.php?owner=$owner\">Jobs status ($owner)</a> * <a href=\"about.php?owner=$owner\">About PHPQstat</a></td></tr>";
+      <tr><td CLASS=\"bottom\" align=center><a href='index.php'>Home</a> *  <a href=\"qhost.php?owner=$owner\">Hosts status</a> *  <a href=\"qstat?owner=$owner\">Queue status</a> * <a href=\"qstat_user.php?owner=$owner\">Jobs status ($owner)</a> * <a href=\"about.php?owner=$owner\">About PHPQstat</a></td></tr>";
 ?>
     <tr>
       <td>
@@ -57,7 +57,7 @@ $qstat = simplexml_load_file("/tmp/$token.xml");
 
 foreach ($qstat->xpath('//cluster_queue_summary') as $cluster_queue_summary) {
 echo "                <tr>
-                <td><a href=qstat_queue.php?queue=$cluster_queue_summary->name>$cluster_queue_summary->name</a></td>
+                <td><a href=qstat_user.php?owner=$owner&queue=$cluster_queue_summary->name>$cluster_queue_summary->name</a></td>
                 <td>$cluster_queue_summary->load</td>
                 <td>$cluster_queue_summary->used</td>
                 <td>$cluster_queue_summary->resv</td>
@@ -108,17 +108,17 @@ $jobstatus=$job_list['state'];
 	}
 }
 echo "          <tr>
-                <td><a href=qstat_jobs.php?jobs=r>running</a></td>
+                <td><a href=qstat_user.php?jobstat=r&owner=$owner>running</a></td>
                 <td>$nrun</td>
                 <td>$srun</td>
                 </tr>
                 <tr>
-                <td><a href=qstat_jobs.php?jobs=p>pending</a></td>
+                <td><a href=qstat_user.php?jobstat=p&owner=$owner>pending</a></td>
                 <td>$npen</td>
                 <td>$spen</td>
                 </tr>
                 <tr>
-                <td><a href=qstat_jobs.php?jobs=z>zombie</a></td>
+                <td><a href=qstat_user.php?jobstat=z&owner=$owner>zombie</a></td>
                 <td>$nzom</td>
                 <td>$szom</td>
                 </tr>

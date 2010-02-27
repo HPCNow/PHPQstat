@@ -1,12 +1,13 @@
 #!/bin/bash
-#TO Modify
+# Modify your SGE_ROOT
 #########################################
-source /sge/default/common/settings.sh
+export SGE_ROOT=/sge
+source $SGE_ROOT/default/common/settings.sh
 #########################################
 
 #set -xv
 
-while getopts RMfh:g:u:o:e:s:j: OPTION
+while getopts RMfh:g:u:o:e:s:j:q: OPTION
 do
     case $OPTION in
       s) state=$OPTARG
@@ -34,6 +35,9 @@ do
       j) jobid=$OPTARG
          jobidopt="-j $jobid"
 	 ;;
+      q) queue=$OPTARG
+	 queueopt="-q $queue"
+      ;;
 	 
       R) sw_R="-g c" #queues status
 	 ;;
@@ -51,6 +55,6 @@ do
 done
 
 
-qstat -xml -r $sw_R $sw_f $groupopt $useropt "$user" $erroropt $jobidopt > $out
+qstat -xml -r $stateopt $queueopt $sw_R $sw_f $groupopt $useropt "$user" $erroropt $jobidopt > $out
 
 exit
