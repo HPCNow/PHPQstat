@@ -18,3 +18,15 @@ INSTALL
 The instalation it's pretty easy. Just copy all files in your web accesible filesystem and change your SGE_ROOT in : gexml & qhostout
 That's all!
 
+ROADMAP
+==============================================
+0.1 Functional
+0.2 Security & Stable
+0.3 Look & aspect improvement
+
+TODO LIST
+==============================================
+* Group joblist
+* all users joblist
+* Sort states (running/pending) in specific tables
+* Job info (submission time, wait time, walltime, cputime, efficiency=(cputime/(walltime*slots))

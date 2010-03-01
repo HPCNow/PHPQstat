@@ -65,7 +65,7 @@ echo "          <tr>
                 <td>$job_list->JAT_prio</td>
                 <td>$job_list->JB_name</td>
                 <td>$job_list->state</td>
-                <td><a href=qstat.php?queue=$job_list->queue_name>$job_list->queue_name</a></td>
+                <td><a href=qstat_user.php?queue=$job_list->queue_name&owner=$owner>$job_list->queue_name</a></td>
                 <td>$job_list->JB_submission_time</td>
                 <td>$pe</td>
                 <td>$job_list->slots</td>

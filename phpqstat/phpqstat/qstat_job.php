@@ -84,6 +84,7 @@ $i=0;
 foreach ($qstat->xpath('//scaled') as $usage) {
 $usage_stats[$i++]=$usage->UA_value;
 }
+if ($usage_stats[0] > 0){$cputime = time_duration($usage_stats[0], 'dhms');}else{$cputime = 0;}
 echo "	<table align=center width=95% border=\"1\" cellpadding=\"0\" cellspacing=\"0\">
         <tbody>
 		<tr CLASS=\"header\">
@@ -95,7 +96,7 @@ echo "	<table align=center width=95% border=\"1\" cellpadding=\"0\" cellspacing=
                 <td>MaxVMem (M)</td>
                 </tr>
                 <tr>
-                <td>".time_duration($usage_stats[0])."</td>
+                <td>$cputime</td>
                 <td>".number_format($usage_stats[1], 2, '.', '')."</td>
                 <td>".number_format($usage_stats[2], 2, '.', '')."</td>
                 <td>".number_format($usage_stats[3], 2, '.', '')."</td>
