@@ -26,7 +26,7 @@ echo "<tr><td><h1>PHPQstat</h1></td></tr>
 <b>AUTHOR</b> Written by Jordi Blasco Pallarès.<br>
 <b>REPORTING BUGS</b> Report bugs to <a href=http://sourceforge.net/tracker/?group_id=306687 target=bugs>SourceForge Tracker</a><br>
 <b>LICENSE</b> This is free software: you are free to change and redistribute it. GNU General Public License version 3.0 (<a href=http://gnu.org/licenses/gpl.html target=gpl>GPLv3</a>).<br>
-<b>Version : 0.1 (February 2010)</b><br><br>
+<b>Version : 0.1.2 (September 2010)</b><br><br>
 <a href=http://phpqstat.sourceforge.net target=SF>http://phpqstat.sourceforge.net</a><br>
 </td></tr>
 </table>

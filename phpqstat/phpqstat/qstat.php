@@ -61,8 +61,8 @@ echo "                <tr>
                 <td>$cluster_queue_summary->load</td>
                 <td>$cluster_queue_summary->used</td>
                 <td>$cluster_queue_summary->resv</td>
-                <td>$cluster_queue_summary->state</td>
                 <td>$cluster_queue_summary->available</td>
+                <td>$cluster_queue_summary->total</td>
                 <td>$cluster_queue_summary->temp_disabled</td>
                 <td>$cluster_queue_summary->manual_intervention</td>
                 </tr>";
