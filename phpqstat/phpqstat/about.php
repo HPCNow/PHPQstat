@@ -22,11 +22,11 @@ echo "<tr><td><h1>PHPQstat</h1></td></tr>
 <center>
 <table align=center width=50% border="0" cellpadding="0" cellspacing="0">
 <tr><td align=center>
-<b>PHPQstat</b> is a web interface that allows to connect to the usefull commands of the Sun Grid Engine (SGE) batch queue system. With this interface, you can monitor your job status and your queues health at real time.<br><br>
+<b>PHPQstat</b> is a web interface that allows to connect to the usefull commands of the Grid Engine (GE) batch queue system. With this interface, you can monitor your job status and your queues health at real time.<br><br>
 <b>AUTHOR</b> Written by Jordi Blasco Pallarès.<br>
 <b>REPORTING BUGS</b> Report bugs to <a href=http://sourceforge.net/tracker/?group_id=306687 target=bugs>SourceForge Tracker</a><br>
 <b>LICENSE</b> This is free software: you are free to change and redistribute it. GNU General Public License version 3.0 (<a href=http://gnu.org/licenses/gpl.html target=gpl>GPLv3</a>).<br>
-<b>Version : 0.1.2 (September 2010)</b><br><br>
+<b>Version : 0.2.0 (February 2012)</b><br><br>
 <a href=http://phpqstat.sourceforge.net target=SF>http://phpqstat.sourceforge.net</a><br>
 </td></tr>
 </table>

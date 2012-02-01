@@ -1,7 +1,8 @@
 #!/bin/bash
-# Exporting Environment Variables
+# Modify your SGE_ROOT
 #########################################
-source ./phpqstat.conf
+export SGE_ROOT=/sge
+source $SGE_ROOT/default/common/settings.sh
 #########################################
 
 #set -xv

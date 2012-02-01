@@ -3,5 +3,5 @@ TD { font-family: arial; font-size: 12pt;color:#000000 }
  a:hover { text-decoration:none;font-weight:bold;color:#0022FF}
  .text { arial;font-size:12pt;color:#000000}
  .nadpis { arial;font-size:12pt;color:#000000;letter-spacing:2pt}
- .bottom, .bottom TD, .bottom TH {background: url("bottom_logo.png") no-repeat bottom right; background-color:#eeeeee}
+ .bottom, .bottom TD, .bottom TH {background: url("img/bottom_logo.png") no-repeat bottom right; background-color:#eeeeee}
  .header, .header TR, .header TH {arial;font-size:12pt;font-weight:bold;color:#FFFFFF;background-color:#eeeeee}

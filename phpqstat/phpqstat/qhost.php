@@ -31,7 +31,7 @@ echo "<tr><td><h1>PHPQstat</h1></td></tr>
                 <td>swap_total</td>
                 <td>swap_used</td>
                 </tr>
-<?
+<?php
 $password_length = 20;
 
 function make_seed() {

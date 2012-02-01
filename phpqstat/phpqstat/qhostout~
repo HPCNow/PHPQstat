@@ -1,5 +1,4 @@
 #!/bin/bash
-# Exporting Environment Variables
 #########################################
 source ./phpqstat.conf
 #########################################

@@ -1,21 +1,14 @@
 #!/bin/bash
 #set -xv
-source ..conf
+# Exporting Environment Variables
+#########################################
+source ./phpqstat.conf
+#########################################
 source $SGE_ROOT/default/common/settings.sh 
 
 if [ -d $RRD_ROOT ]; then mkdir -p $RRD_ROOT; fi
 
-COLOR=( DF0101 FF0000 FF8000 AEB404 F7FE2E 088A08 2EFE2E 088A85 2EFEF7 0404B4 5F04B4 FF00FF B4045F F781BE 0B6138 0B3B39 000000 ) 
-CSHARE=( 0 511 572 185 549 186 80 0 284 218 188 34 127 0 50 93 101 )
-TSHARE=2944
-TCORES=1576
-CCPU=( 0 272 296 100 284 124 56 0 148 116 104 20 76 0 24 52 52 ) 
-CLIMIT=( 0 411 460 149 441 200 64 0 228 175 151 28 102 0 53 75 81 )
-
-
-ngroup=16
 tcputime=0
-
 # Inici BBDD
 #################
 for ((i=1; i<=$ngroup; i++)); do

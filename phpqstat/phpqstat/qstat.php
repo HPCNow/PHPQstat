@@ -32,7 +32,7 @@ echo "<tr><td><h1>PHPQstat</h1></td></tr>
                 <td>Manual intervention</td>
                 </tr>
 
-<?
+<?php
 $password_length = 20;
 
 function make_seed() {
@@ -131,6 +131,14 @@ echo "          <tr>
 	</table>
 
 <br>
+<br>
+
+	<table align=center width=95% border="1" cellpadding="0" cellspacing="0">
+        <tbody>
+		<tr CLASS="header"><td>Real-time Accounting : hour - day - week - month - year</td></tr>
+		<tr/><td><img ref="img/hour.png"></td></tr>
+	</tbody>
+	</table>
 
       </td>
     </tr>

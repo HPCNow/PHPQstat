@@ -23,7 +23,7 @@ echo "<tr><td><h1>PHPQstat</h1></td></tr>
 
 
 
-<?
+<?php
 $password_length = 20;
 
 function make_seed() {
