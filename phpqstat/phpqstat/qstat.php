@@ -136,7 +136,7 @@ echo "          <tr>
 	<table align=center width=95% border="1" cellpadding="0" cellspacing="0">
         <tbody>
 		<tr CLASS="header"><td>Real-time Accounting : hour - day - week - month - year</td></tr>
-		<tr/><td><img ref="img/hour.png"></td></tr>
+		<tr/><td><img src="img/hour.png"></td></tr>
 	</tbody>
 	</table>
 
