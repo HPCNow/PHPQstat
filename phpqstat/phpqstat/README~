@@ -2,11 +2,11 @@ ABOUT PHPQstat
 ==============================================
 PHPQstat is a web interface that allows to connect to the usefull commands of the Sun Grid Engine (SGE) batch queue system. With this interface, you can monitor your job status and your queues health at real time.
 
-AUTHOR : Written by Jordi Blasco Pallarès (jordi.blasco@gmail.com).
+AUTHOR Written by Jordi Blasco Pallarès.
 
-REPORTING BUGS : Report bugs to SourceForge Tracker.
+REPORTING BUGS Report bugs to SourceForge Tracker.
 
-LICENSE : This is free software: you are free to change and redistribute it. GNU General Public License version 3.0 (GPLv3).
+LICENSE This is free software: you are free to change and redistribute it. GNU General Public License version 3.0 (GPLv3).
 Version : 0.2.0 (January 2012)
 
 http://phpqstat.sourceforge.net
