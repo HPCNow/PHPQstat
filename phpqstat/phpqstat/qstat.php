@@ -133,9 +133,9 @@ echo "          <tr>
 <br>
 <br>
 
-	<table align=center width=95% border="1" cellpadding="0" cellspacing="0">
+	<table align=center border="1" cellpadding="0" cellspacing="0">
         <tbody>
-		<tr CLASS="header"><td>Real-time Accounting : hour - day - week - month - year</td></tr>
+		<tr CLASS="header"><td align=center>Real-time Accounting : hour - day - week - month - year</td></tr>
 		<tr/><td><img src="img/hour.png"></td></tr>
 	</tbody>
 	</table>
