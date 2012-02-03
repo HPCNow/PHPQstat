@@ -8,6 +8,9 @@
   <link rel="stylesheet" href="phpqstat.css" type="text/css" /> 
 </head>
 <body>
+<script type="text/javascript">
+function changeIt(rta){document.images.example.src='img/'rta'.png'}
+</script>
 
 <?php
 $owner  = $_GET['owner'];
@@ -135,8 +138,13 @@ echo "          <tr>
 
 	<table align=center border="1" cellpadding="0" cellspacing="0">
         <tbody>
-		<tr CLASS="header"><td align=center>Real-time Accounting : hour - day - week - month - year</td></tr>
-		<tr/><td><img src="img/hour.png"></td></tr>
+		<tr CLASS="header"><td align=center>Real-time Accounting : 
+		<a href="#" onclick="changeIt(hour)">hour</a> - 
+		<a href="#" onclick="changeIt(day)">day</a> - 
+		<a href="#" onclick="changeIt(week)">week</a> - 
+		<a href="#" onclick="changeIt(month)">month</a> - 
+		<a href="#" onclick="changeIt(year)">year</a></td></tr>
+		<tr/><td><img src="img/hour.png" name="rta"></td></tr>
 	</tbody>
 	</table>
 
