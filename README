@@ -7,16 +7,26 @@ AUTHOR : Written by Jordi Blasco Pallarès (jordi.blasco@gmail.com).
 REPORTING BUGS : Report bugs to SourceForge Tracker.
 
 LICENSE : This is free software: you are free to change and redistribute it. GNU General Public License version 3.0 (GPLv3).
-Version : 0.2.0 (January 2012)
+Version : 0.2.0 (February 2012)
 
 http://phpqstat.sourceforge.net
 
 Please, visit our forum project and send us your feedback.
 
+DEPENDECIES
+==============================================
+You will need Apache server, php5, rrdtool and awk.
+
 INSTALL
 ==============================================
-The instalation it's pretty easy. Just copy all files in your web accesible filesystem and change your SGE_ROOT in : gexml & qhostout
-That's all!
+(1) Copy all files in your web accesible filesystem or download the project using GIT:
+    git clone git://github.com/HPCKP/PHPQstat.git
+(2) Setup the following paths on phpqstat.conf :
+    SGE_ROOT=/sge
+    RRD_ROOT=/var/www/PHPQstat/rrd
+    WEB_ROOT=/var/www/PHPQstat
+(3) Add the following line on the crontab :
+    */3 * * * * /var/www/PHPQstat/accounting.sh > /dev/null 2>&1
 
 ROADMAP
 ==============================================
@@ -29,7 +39,6 @@ TODO LIST
 ==============================================
 * Group joblist
 * all users joblist
-* Sort states (running/pending) in specific tables
 * Job info (submission time, wait time, walltime, cputime, efficiency=(cputime/(walltime*slots))
 
 CHANGELOG
