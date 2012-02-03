@@ -1,6 +1,6 @@
 ABOUT PHPQstat
 ==============================================
-PHPQstat is a web interface that allows to connect to the useful commands of the Sun Grid Engine (SGE) batch queue system. With this interface, you can monitor your job status and your queues health at real time.
+PHPQstat is a web interface that allows to connect to the usefull commands of the Sun Grid Engine (SGE) batch queue system. With this interface, you can monitor your job status and your queues health at real time.
 
 AUTHOR : Written by Jordi Blasco Pallarès (jordi.blasco@gmail.com).
 
@@ -13,7 +13,7 @@ http://phpqstat.sourceforge.net
 
 Please, visit our forum project and send us your feedback.
 
-DEPENDENCIES
+DEPENDECIES
 ==============================================
 You will need Apache server, php5, rrdtool and awk.
 
