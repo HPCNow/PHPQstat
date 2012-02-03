@@ -6,11 +6,11 @@
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <meta name="KEYWORDS" content="gridengine sge sun hpc supercomputing batch queue linux xml qstat qhost jordi blasco solnu">
   <link rel="stylesheet" href="phpqstat.css" type="text/css" /> 
+<script type="text/javascript">
+  function changeIt(view){document.getElementById('rta').src= view;}
+</script>
 </head>
 <body>
-<script type="text/javascript">
-function changeIt(rta){document.images.example.src='img/'rta'.png'}
-</script>
 
 <?php
 $owner  = $_GET['owner'];
@@ -138,13 +138,14 @@ echo "          <tr>
 
 	<table align=center border="1" cellpadding="0" cellspacing="0">
         <tbody>
-		<tr CLASS="header"><td align=center>Real-time Accounting : 
-		<a href="#" onclick="changeIt(hour)">hour</a> - 
-		<a href="#" onclick="changeIt(day)">day</a> - 
-		<a href="#" onclick="changeIt(week)">week</a> - 
-		<a href="#" onclick="changeIt(month)">month</a> - 
-		<a href="#" onclick="changeIt(year)">year</a></td></tr>
-		<tr/><td><img src="img/hour.png" name="rta"></td></tr>
+		<tr class="header"><td align="center">Real-time Accounting : 
+		<a href="#" onclick="changeIt('img/hour.png')">hour</a> - 
+		<a href="#" onclick="changeIt('img/day.png')">day</a> - 
+		<a href="#" onclick="changeIt('img/week.png')">week</a> - 
+		<a href="#" onclick="changeIt('img/month.png')">month</a> - 
+		<a href="#" onclick="changeIt('img/year.png')">year</a></td></tr>
+		<tr><td>
+		<img src="img/hour.png" id='rta' border='0'></td></tr>
 	</tbody>
 	</table>
 
