@@ -5,7 +5,7 @@
 source /var/www/PHPQstat/phpqstat.conf
 #########################################
 
-if [ -d $RRD_ROOT ]; then mkdir -p $RRD_ROOT; fi
+if ! [ -d $RRD_ROOT ]; then mkdir -p $RRD_ROOT; fi
 QUEUES=$(qconf -sql | cut -d. -f1)
 
 # Inici BBDD
