@@ -132,10 +132,7 @@ echo "          <tr>
 
 	  </tbody>
 	</table>
-
 <br>
-<br>
-
 	<table align=center border="1" cellpadding="0" cellspacing="0">
         <tbody>
 		<tr class="header"><td align="center">Real-time Accounting : 
@@ -148,7 +145,7 @@ echo "          <tr>
 		<img src="img/hour.png" id='rta' border='0'></td></tr>
 	</tbody>
 	</table>
-
+<br>
       </td>
     </tr>
 <?php
