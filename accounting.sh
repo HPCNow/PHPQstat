@@ -6,7 +6,7 @@ source /var/www/PHPQstat/phpqstat.conf
 #########################################
 
 if ! [ -d $RRD_ROOT ]; then mkdir -p $RRD_ROOT; fi
-QUEUES=$(qconf -sql | cut -d. -f1)
+#QUEUES=$(qconf -sql | cut -d. -f1)
 
 # Inici BBDD
 #################
@@ -27,7 +27,7 @@ i=0
 for q in $QUEUES; do
 # NOTE <---------------------------------------------------------------------
 # If your Queues don't have the .q extension, you can comment the follow line
-qname="${q}.q"
+qname="${q}${QEXT}"
 data="N"
     cpusused=$(qstat -u *, -q $qname | gawk '{if ($5 !~ /qw/){sum=sum+$9}}END{print sum}')
     cpuslimit=${CLIMIT[${i}]}
