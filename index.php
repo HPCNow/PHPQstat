@@ -18,7 +18,7 @@
     <tr>
       <td align=center>
       <FORM ACTION=qstat.php METHOD=GET> 
-      <input name=owner type=text value=username><input type=submit value='Enter'> 
+      User: <input size=10 name=owner type=text value=all><input type=submit value='Enter'> 
       </FORM>  
       </td>
     </tr>
