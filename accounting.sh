@@ -19,7 +19,9 @@ creabbdd=""
 done
 # Queue Waiting
 creabbdd="DS:slots-qw:GAUGE:1000000:0:999995000 "
-rrdtool create $RRD_ROOT/qacct_qw.rrd -s 180 $creabbdd RRA:AVERAGE:0.5:1:576
+if ! [ -f $RRD_ROOT/qacct_qw.rrd ] ; then
+       rrdtool create $RRD_ROOT/qacct_qw.rrd -s 180 $creabbdd RRA:AVERAGE:0.5:1:576
+fi
 
 # Actualitzo la BBDD
 ######################
