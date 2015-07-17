@@ -5,10 +5,28 @@
 source /var/www/PHPQstat/phpqstat.conf
 #########################################
 
-if ! [ -d $RRD_ROOT ]; then mkdir -p $RRD_ROOT; fi
-#QUEUES=$(qconf -sql | cut -d. -f1)
+function cpusused() { 
+    if [ "$BQS" = 'SGE' ]; then
+        cpusused=$(qstat -u *, -q $qname | gawk '{if ($5 !~ /qw/){sum=sum+$9}}END{print sum}')
+    fi
+    if [ "$BQS" = 'Slurm' ]; then
+        cpusused=$(squeue -p $1 -t R -o "%.4C" | gawk '{if ($1 !~ /CPUS/){sum=sum+$1}}END{print sum}')
+    fi
+    echo $cpusused
+}
 
-# Inici BBDD
+function cpusqw() { 
+    if [ "$BQS" = 'SGE' ]; then
+        cpusqw=$(qstat -u *, | gawk '{if ($5 ~ /qw/){sum=sum+$NF}}END{if (sum >0){ print sum}else{print 0}}')
+    fi
+    if [ "$BQS" = 'Slurm' ]; then
+        cpusqw=$(squeue -p $1 -t PD -o "%.4C" | gawk '{if ($1 !~ /CPUS/){sum=sum+$1}}END{print sum}')
+    fi
+    echo $cpusqw
+}
+
+if ! [ -d $RRD_ROOT ]; then mkdir -p $RRD_ROOT; fi
+# DB Creation
 #################
 for q in $QUEUES; do
 creabbdd=""
@@ -23,15 +41,13 @@ if ! [ -f $RRD_ROOT/qacct_qw.rrd ] ; then
        rrdtool create $RRD_ROOT/qacct_qw.rrd -s 180 $creabbdd RRA:AVERAGE:0.5:1:576
 fi
 
-# Actualitzo la BBDD
+# DB update
 ######################
 i=0 
 for q in $QUEUES; do
-# NOTE <---------------------------------------------------------------------
-# If your Queues don't have the .q extension, you can comment the follow line
 qname="${q}${QEXT}"
 data="N"
-    cpusused=$(qstat -u *, -q $qname | gawk '{if ($5 !~ /qw/){sum=sum+$9}}END{print sum}')
+    cpusused $qname
     cpuslimit=${CLIMIT[${i}]}
     if [ -z $cputime ] ; then cputime=0; fi
     if [ -z $cpusused ] ; then cpusused=0; fi
@@ -43,13 +59,13 @@ done
 
 # Queue Waiting
     data="N"
-    cpusqw=$(qstat -u *, | gawk '{if ($5 ~ /qw/){sum=sum+$NF}}END{if (sum >0){ print sum}else{print 0}}')
+    cpusqw
     data="$data:$cpusqw"
     rrdupdate $RRD_ROOT/qacct_qw.rrd $data
     echo "rrdupdate $RRD_ROOT/qacct_qw.rrd $data"
 
 
-# Creo la grafica
+# Print chart
 ######################
 DATE=$(date '+%a %b %-d %H\:%M\:%S %Z %Y')
 
