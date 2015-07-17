@@ -20,7 +20,7 @@ function cpusqw() {
         cpusqw=$(qstat -u *, | gawk '{if ($5 ~ /qw/){sum=sum+$NF}}END{if (sum >0){ print sum}else{print 0}}')
     fi
     if [ "$BQS" = 'Slurm' ]; then
-        cpusqw=$(squeue -p $1 -t PD -o "%.4C" | gawk '{if ($1 !~ /CPUS/){sum=sum+$1}}END{print sum}')
+        cpusqw=$(squeue -t PD -h -o "%.4C" | gawk '{sum=sum+$1}END{print sum}')
     fi
     echo $cpusqw
 }
