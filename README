@@ -1,17 +1,16 @@
 ABOUT PHPQstat
 ==============================================
-PHPQstat is a web interface that allows to connect to the useful commands of the Sun Grid Engine (SGE) batch queue system. With this interface, you can monitor your job status and your queues health at real time.
+PHPQstat is a web interface that allows to connect to the useful commands of the Sun Grid Engine (SGE) batch queue system. With this interface, you can monitor your job status and your queues health at real time. In the Slurm branch you will find similar interface for this workload manager.
+This project is developed and maintained by HPCNow! consulting : http://www.hpcnow.com
 
-AUTHOR : Written by Jordi Blasco Pallarès (jordi.blasco@gmail.com).
+AUTHOR : Written by Jordi Blasco Pallarès (jordi.blasco@hpcnow.com).
 
-REPORTING BUGS : Report bugs to SourceForge Tracker.
+REPORTING BUGS : Report bugs to GitHUB issue Tracker https://github.com/HPCNow/PHPQstat/issues
 
 LICENSE : This is free software: you are free to change and redistribute it. GNU General Public License version 3.0 (GPLv3).
-Version : 0.2.0 (February 2012)
+Version : 0.2.1 (July 2015)
 
-http://phpqstat.sourceforge.net
-
-Please, visit our forum project and send us your feedback.
+https://github.com/HPCNow/PHPQstat
 
 DEPENDENCIES
 ==============================================
@@ -48,3 +47,4 @@ CHANGELOG
 0.1.2 Solved problem on cputime request on pending job
 0.1.3 Solved problems with Start time and Submission Time
 0.2.0 Real-time accounting feature
+0.2.1 Migration to HPCNow GitHUB repo
