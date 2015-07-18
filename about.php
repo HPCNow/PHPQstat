@@ -4,7 +4,7 @@
   <title>PHPQstat</title>
   <meta name="AUTHOR" content="Jordi Blasco Pallares ">
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-  <meta name="KEYWORDS" content="gridengine sge sun hpc supercomputing batch queue linux xml qstat qhost jordi blasco solnu">
+  <meta name="KEYWORDS" content="hpcnow slurm gridengine sge sun hpc supercomputing batch queue linux xml qstat qhost jordi blasco solnu">
   <link rel="stylesheet" href="phpqstat.css" type="text/css" /> 
 </head>
 
@@ -22,12 +22,12 @@ echo "<tr><td><h1>PHPQstat</h1></td></tr>
 <center>
 <table align=center width=50% border="0" cellpadding="0" cellspacing="0">
 <tr><td align=center>
-<b>PHPQstat</b> is a web interface that allows to connect to the usefull commands of the Grid Engine (GE) batch queue system. With this interface, you can monitor your job status and your queues health at real time.<br><br>
-<b>AUTHOR</b> Written by Jordi Blasco Pallarès.<br>
-<b>REPORTING BUGS</b> Report bugs to <a href=http://sourceforge.net/tracker/?group_id=306687 target=bugs>SourceForge Tracker</a><br>
+<b>PHPQstat</b> is a web interface that allows to connect to the usefull commands of the Grid Engine (GE) and Slurm workload managers. With this interface, you can monitor your job status and your queues health at real time.<br><br>
+<b>AUTHOR</b> Written by Jordi Blasco Pallarès (<a href=http://www.hpcnow.com target=hpcnow>HPCNow!</a>).<br>
+<b>REPORTING BUGS</b> Report bugs to <a href=https://github.com/HPCNow/PHPQstat/issues target=bugs>GitHUB Issue Tracker</a><br>
 <b>LICENSE</b> This is free software: you are free to change and redistribute it. GNU General Public License version 3.0 (<a href=http://gnu.org/licenses/gpl.html target=gpl>GPLv3</a>).<br>
-<b>Version : 0.2.0 (February 2012)</b><br><br>
-<a href=http://phpqstat.sourceforge.net target=SF>http://phpqstat.sourceforge.net</a><br>
+<b>Version : 0.3.0 (July 2015)</b><br><br>
+<a href=https://github.com/HPCNow/PHPQstat target=GH>https://github.com/HPCNow/PHPQstat</a><br>
 </td></tr>
 </table>
 </center>

@@ -26,8 +26,8 @@
 
     <tr> 
       <td align=center CLASS="bottom"> 
-	version : 0.2.0 (February 2012)<br>
-        <a href="http://phpqstat.sourceforge.net">http://phpqstat.sourceforge.net</a><br> 
+	version : 0.3.0 (July 2015)<br>
+        <a href="https://github.com/HPCNow/PHPQstat">https://github.com/HPCNow/PHPQstat</a><br>
       </td> 
     </tr> 
 

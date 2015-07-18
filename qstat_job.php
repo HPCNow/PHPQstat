@@ -24,7 +24,7 @@ echo "<tr><td><h1>PHPQstat</h1></td></tr>
 
 
 <?php
-$password_length = 20;
+$token_length = 20;
 
 function make_seed() {
   list($usec, $sec) = explode(' ', microtime());
@@ -35,7 +35,7 @@ srand(make_seed());
 
 $alfa = "1234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM";
 $token = "";
-for($i = 0; $i < $password_length; $i ++) {
+for($i = 0; $i < $token_length; $i ++) {
   $token .= $alfa[rand(0, strlen($alfa))];
 }
 if($jobstat){$jobstatflag="-s $jobstat";}else{$jobstatflag="";}

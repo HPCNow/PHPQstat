@@ -1,8 +1,8 @@
 <?php
 echo "<tr> 
       <td CLASS=\"bottom\"> 
-	<b>Version : 0.2.0 (February 2012)</b><br>
-        <a href=\"http://phpqstat.sourceforge.net\">http://phpqstat.sourceforge.net</a><br>
+	<b>Version : 0.3.0 (July 2015)</b><br>
+        <a href=\"https://github.com/HPCNow/PHPQstat\">https://github.com/HPCNow/PHPQstat</a><br>
       </td> 
     </tr>"; 
 ?>

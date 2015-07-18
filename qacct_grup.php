@@ -3,7 +3,7 @@
     <title>IQTC Accounting for group $group</title>
   <meta name="AUTHOR" content="Jordi Blasco Pallares "> 
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8"> 
-  <meta name="KEYWORDS" content="gridengine sge sun hpc supercomputing batch queue linux xml qstat qhost jordi blasco solnu">
+  <meta name="KEYWORDS" content="hpcnow slurm gridengine sge sun hpc supercomputing batch queue linux xml qstat qhost jordi blasco solnu">
   <meta http-equiv="refresh" content="180">
   <link rel="stylesheet" href="phpqstat.css" type="text/css" /> 
   </head>

@@ -1,6 +1,6 @@
 #!/bin/bash
 # Exporting Environment Variables
 #########################################
-source ./phpqstat.conf
+source /var/www/PHPQstat/phpqstat.conf
 #########################################
 qhost -xml > $1
