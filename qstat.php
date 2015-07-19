@@ -53,10 +53,7 @@ for($i = 0; $i < $token_length; $i ++) {
 
 $out = exec("./gexml -u all -R -o /tmp/$token.xml");
 
-//printf("System Output: $out\n"); 
 $qstat = simplexml_load_file("/tmp/$token.xml");
-
-//$qstat = simplexml_load_file("/home/xadmin/phpqstat/qstat_user.xml");
 
 foreach ($qstat->xpath('//cluster_queue_summary') as $cluster_queue_summary) {
 echo "                <tr>
@@ -127,7 +124,7 @@ echo "          <tr>
                 </tr>
 ";
 
-//exec("rm /tmp/$token.xml");
+exec("rm /tmp/$token.xml");
 ?>
 
 	  </tbody>
@@ -153,8 +150,6 @@ include("bottom.php");
 ?>
   </tbody>
 </table>
-
-
 
 </body>
 </html>

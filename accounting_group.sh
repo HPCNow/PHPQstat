@@ -2,7 +2,7 @@
 #set -xv
 # Exporting Environment Variables
 #########################################
-source ./phpqstat.conf
+source /var/www/PHPQstat/phpqstat.conf
 #########################################
 source $SGE_ROOT/default/common/settings.sh 
 
