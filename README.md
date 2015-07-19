@@ -3,20 +3,21 @@
 ABOUT PHPQstat
 ==============================================
 PHPQstat is a web interface that allows to connect to the useful commands of the Sun Grid Engine (SGE) batch queue system. With this interface, you can monitor your job status and your queues health at real time. In the Slurm branch you will find similar interface for this workload manager.
-This project is developed and maintained by HPCNow! consulting : http://www.hpcnow.com
+This project is developed and maintained by *HPCNow! consulting* : http://www.hpcnow.com
 
-AUTHOR : Written by Jordi Blasco Pallarès (jordi.blasco@hpcnow.com).
+*AUTHOR* : Written by Jordi Blasco Pallarès (jordi.blasco@hpcnow.com).
 
-REPORTING BUGS : Report bugs to GitHUB issue Tracker https://github.com/HPCNow/PHPQstat/issues
+*REPORTING BUGS* : Report bugs to GitHUB issue Tracker https://github.com/HPCNow/PHPQstat/issues
 
-LICENSE : This is free software: you are free to change and redistribute it. GNU General Public License version 3.0 (GPLv3).
-Version : 0.3.0 (July 2015)
+*LICENSE* : This is free software: you are free to change and redistribute it. GNU General Public License version 3.0 (GPLv3).
+
+*VERSION* : 0.3.0 (July 2015)
 
 https://github.com/HPCNow/PHPQstat
 
 DEPENDENCIES
 ==============================================
-You will need Apache server, php5, rrdtool and awk.
+You will need Apache server, php5, rrdtool and gawk.
 
 INSTALL
 ==============================================
@@ -24,15 +25,16 @@ INSTALL
 ```
 git clone git://github.com/HPCKP/PHPQstat.git
 ```
-(2) Setup the following paths on phpqstat.conf :
+(2) Setup the used batch queue system (BQS=SGE|Slurm) and following paths on phpqstat.conf :
 ```
+BQS=SGE
 SGE_ROOT=/sge
 RRD_ROOT=/var/www/PHPQstat/rrd
 WEB_ROOT=/var/www/PHPQstat
 ```
 (3) Add the following line on the crontab :
 ```
-*/3 * * * * /var/www/PHPQstat/accounting.sh > /dev/null 2>&1
+*/3 * * * * /var/www/PHPQstat/cluster-load.sh > /dev/null 2>&1
 ```
 
 SCREENSHOTS
