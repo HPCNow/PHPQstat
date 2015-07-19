@@ -21,7 +21,9 @@ You will need Apache server, php5, rrdtool and awk.
 INSTALL
 ==============================================
 (1) Copy all files in your web accesible filesystem or download the project using GIT:
-```git clone git://github.com/HPCKP/PHPQstat.git```
+```
+git clone git://github.com/HPCKP/PHPQstat.git
+```
 (2) Setup the following paths on phpqstat.conf :
 ```
 SGE_ROOT=/sge
@@ -29,7 +31,9 @@ RRD_ROOT=/var/www/PHPQstat/rrd
 WEB_ROOT=/var/www/PHPQstat
 ```
 (3) Add the following line on the crontab :
-```*/3 * * * * /var/www/PHPQstat/accounting.sh > /dev/null 2>&1```
+```
+*/3 * * * * /var/www/PHPQstat/accounting.sh > /dev/null 2>&1
+```
 
 SCREENSHOTS
 ==============================================
@@ -39,11 +43,11 @@ SCREENSHOTS
 
 ROADMAP
 ==============================================
-0.1 Functional
-0.2 Real-time accounting
-0.3 Slurm support
-0.4 Security & Stable
-0.5 Look & aspect improvement
+* 0.1 Functional
+* 0.2 Real-time accounting
+* 0.3 Slurm support
+* 0.4 Security & Stable
+* 0.5 Look & aspect improvement
 
 TODO LIST
 ==============================================
@@ -55,11 +59,11 @@ TODO LIST
 
 CHANGELOG
 ==============================================
-0.3.0 Slurm integration
-0.2.1 Migration to HPCNow GitHUB repo
-0.2.0 Real-time accounting feature
-0.1.3 Solved problems with Start time and Submission Time
-0.1.2 Solved problem on cputime request on pending job
-0.1.1 Install instructions and job details support
-0.1.0 Project started
+* 0.3.0 Slurm integration
+* 0.2.1 Migration to HPCNow GitHUB repo
+* 0.2.0 Real-time accounting feature
+* 0.1.3 Solved problems with Start time and Submission Time
+* 0.1.2 Solved problem on cputime request on pending job
+* 0.1.1 Install instructions and job details support
+* 0.1.0 Project started
 
