@@ -7,7 +7,7 @@ source /var/www/PHPQstat/phpqstat.conf
 
 function cpusused() { 
     if [ "$BQS" = 'SGE' ]; then
-        cpusused=$(qstat -u *, -q $qname | gawk '{if ($5 !~ /qw/){sum=sum+$9}}END{print sum}')
+        cpusused=$(qstat -u *, -q $1 | gawk '{if ($5 !~ /qw/){sum=sum+$9}}END{print sum}')
     fi
     if [ "$BQS" = 'Slurm' ]; then
         cpusused=$(squeue -p $1 -t R -o "%.4C" | gawk '{if ($1 !~ /CPUS/){sum=sum+$1}}END{print sum}')
@@ -64,18 +64,18 @@ data="N"
 done
 
 # Queue Waiting
-    data="N"
-    cpusqw
-    data="$data:$cpusqw"
-    rrdupdate $RRD_ROOT/qacct_qw.rrd $data
-    echo "rrdupdate $RRD_ROOT/qacct_qw.rrd $data"
+data="N"
+cpusqw
+data="$data:$cpusqw"
+rrdupdate $RRD_ROOT/qacct_qw.rrd $data
+echo "rrdupdate $RRD_ROOT/qacct_qw.rrd $data"
 
 # Cores Available
-    data="N"
-    #cpusavail
-    data="$data:$TCORES"
-    rrdupdate $RRD_ROOT/qacct_avail.rrd $data
-    echo "rrdupdate $RRD_ROOT/qacct_avail.rrd $data"
+data="N"
+#cpusavail
+data="$data:$TCORES"
+rrdupdate $RRD_ROOT/qacct_avail.rrd $data
+echo "rrdupdate $RRD_ROOT/qacct_avail.rrd $data"
 
 # Print chart
 ######################
@@ -89,9 +89,6 @@ for q in $QUEUES; do
  pp="${q}-used"
  datagrups="$datagrups DEF:${q}-used=$RRD_ROOT/qacct_${q}.rrd:${q}-used:AVERAGE "
  datagrups="$datagrups CDEF:${q}=${pp} "
- #datagrups="$datagrups GPRINT:${q}-used:MIN:%12.0lf%s"
- #datagrups="$datagrups GPRINT:${q}-used:MAX:%12.0lf%s"
- #datagrups="$datagrups GPRINT:${q}-used:AVERAGE:%12.0lf%s\\l"
  datagrups="$datagrups AREA:${q}#${COLOR[${i}]}:${q} "
  if (($i>0)); then 
    plus="${plus}+,"
@@ -102,16 +99,10 @@ for q in $QUEUES; do
 done
 
 # Queue Waiting
- datagrups="$datagrups DEF:slots-qw=$RRD_ROOT/qacct_qw.rrd:slots-qw:AVERAGE LINE1:slots-qw#${COLOR[${i}]}:slots-qw"
- #datagrups="$datagrups GPRINT:slots-qw:MIN:%12.0lf%s"
- #datagrups="$datagrups GPRINT:slots-qw:MAX:%12.0lf%s"
- #datagrups="$datagrups GPRINT:slots-qw:AVERAGE:%12.0lf%s\\l"
+datagrups="$datagrups DEF:slots-qw=$RRD_ROOT/qacct_qw.rrd:slots-qw:AVERAGE LINE1:slots-qw#${COLOR[${i}]}:slots-qw"
 
-# Queue Waiting
- datagrups="$datagrups DEF:CoresAvailable=$RRD_ROOT/qacct_avail.rrd:CoresAvailable:AVERAGE LINE1:CoresAvailable#000000:CoresAvailable"
- #datagrups="$datagrups GPRINT:CoresAvailable:MIN:%12.0lf%s"
- #datagrups="$datagrups GPRINT:CoresAvailable:MAX:%12.0lf%s"
- #datagrups="$datagrups GPRINT:CoresAvailable:AVERAGE:%12.0lf%s\\l"
+# Cores Available
+datagrups="$datagrups DEF:CoresAvailable=$RRD_ROOT/qacct_avail.rrd:CoresAvailable:AVERAGE LINE1:CoresAvailable#000000:CoresAvailable"
 
 rrdtool graph $WEB_ROOT/img/hour.png -a PNG -s -1hour -t "HPC Usage (hourly)" -h 200 -w 600 -v "Load" COMMENT:" \\l" $datagrups COMMENT:" Last update\: $DATE" > /dev/null
 
