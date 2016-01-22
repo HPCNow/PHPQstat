@@ -24,7 +24,12 @@ INSTALL
     SGE_ROOT=/sge
     RRD_ROOT=/var/www/PHPQstat/rrd
     WEB_ROOT=/var/www/PHPQstat
-(3) Add the following line on the crontab :
+(3) Setup the following config variables in config.inc.php :
+    $qstat_reduce="yes";
+    $cache_time="3";
+(4) If using qstat_reduce set LOAD_WAIT variable in phpqstat.conf for high load average protection:
+    LOAD_WAIT=10.00
+(5) Add the following line on the crontab :
     */3 * * * * /var/www/PHPQstat/accounting.sh > /dev/null 2>&1
 
 ROADMAP
@@ -48,3 +53,4 @@ CHANGELOG
 0.1.3 Solved problems with Start time and Submission Time
 0.2.0 Real-time accounting feature
 0.2.1 Migration to HPCNow GitHUB repo
+0.2.2 Added qstat_reduce to cache xml files and only refesh based a time interval with high load average protection
