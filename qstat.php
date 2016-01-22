@@ -15,6 +15,7 @@
 <?php
 $owner  = $_GET['owner'];
 echo "<body><table align=center width=95% border=\"1\" cellpadding=\"0\" cellspacing=\"0\"><tbody>";
+include("header.php");
 echo "<tr><td><h1>PHPQstat</h1></td></tr>
       <tr><td CLASS=\"bottom\" align=center><a href='index.php'>Home</a> *  <a href=\"qhost.php?owner=$owner\">Hosts status</a> *  <a href=\"qstat.php?owner=$owner\">Queue status</a> * <a href=\"qstat_user.php?owner=$owner\">Jobs status ($owner)</a> * <a href=\"about.php?owner=$owner\">About PHPQstat</a></td></tr>";
 ?>
@@ -36,27 +37,31 @@ echo "<tr><td><h1>PHPQstat</h1></td></tr>
                 </tr>
 
 <?php
-$password_length = 20;
+if ($qstat_reduce != "yes" ) {
+	$password_length = 20;
 
-function make_seed() {
-  list($usec, $sec) = explode(' ', microtime());
-  return (float) $sec + ((float) $usec * 100000);
+	function make_seed() {
+	  list($usec, $sec) = explode(' ', microtime());
+	  return (float) $sec + ((float) $usec * 100000);
+	}
+
+	srand(make_seed());
+
+	$alfa = "1234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM";
+	$token = "";
+	for($i = 0; $i < $password_length; $i ++) {
+	  $token .= $alfa[rand(0, strlen($alfa))];
+	}
+
+	$out = exec("./gexml -u all -R -o /tmp/$token.xml");
+
+	//printf("System Output: $out\n"); 
+	$qstat = simplexml_load_file("/tmp/$token.xml");
+
+	//$qstat = simplexml_load_file("/home/xadmin/phpqstat/qstat_user.xml");
+} else {
+	$qstat = simplexml_load_file("/tmp/qstat_queues.xml");
 }
-
-srand(make_seed());
-
-$alfa = "1234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM";
-$token = "";
-for($i = 0; $i < $password_length; $i ++) {
-  $token .= $alfa[rand(0, strlen($alfa))];
-}
-
-$out = exec("./gexml -u all -R -o /tmp/$token.xml");
-
-//printf("System Output: $out\n"); 
-$qstat = simplexml_load_file("/tmp/$token.xml");
-
-//$qstat = simplexml_load_file("/home/xadmin/phpqstat/qstat_user.xml");
 
 foreach ($qstat->xpath('//cluster_queue_summary') as $cluster_queue_summary) {
 echo "                <tr>
@@ -70,7 +75,9 @@ echo "                <tr>
                 <td>$cluster_queue_summary->manual_intervention</td>
                 </tr>";
 }
-exec("rm /tmp/$token.xml");
+if ($qstat_reduce != "yes" ) {
+	exec("rm /tmp/$token.xml");
+}
 
 echo "                </tbody>
 	</table>
@@ -86,8 +93,12 @@ echo "                </tbody>
 
 ";
 
-$out2 = exec("./gexml -u all -o /tmp/$token.xml");
-$jobs = simplexml_load_file("/tmp/$token.xml");
+if ($qstat_reduce != "yes" ) {
+	$out2 = exec("./gexml -u all -o /tmp/$token.xml");
+	$jobs = simplexml_load_file("/tmp/$token.xml");
+} else {
+	$jobs = simplexml_load_file("/tmp/qstat_all.xml");
+}
 $nrun=0;
 $srun=0;
 $npen=0;
@@ -126,8 +137,9 @@ echo "          <tr>
                 <td>$szom</td>
                 </tr>
 ";
-
-//exec("rm /tmp/$token.xml");
+if ($qstat_reduce != "yes" ) {
+	exec("rm /tmp/$token.xml");
+}
 ?>
 
 	  </tbody>
