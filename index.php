@@ -26,7 +26,7 @@
 
     <tr> 
       <td align=center CLASS="bottom"> 
-	version : 0.2.0 (February 2012)<br>
+	version : 0.2.3 (February 2012)<br>
         <a href="http://phpqstat.sourceforge.net">http://phpqstat.sourceforge.net</a><br> 
       </td> 
     </tr> 
