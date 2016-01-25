@@ -22,7 +22,15 @@ touch /tmp/qinfo.run
 
 # check load average
 # get five minute load average and convert to decial
-LOAD_FIVE=$(uptime | gawk {' sub(/,$/,"",$11);print $11 '})
+if [ "${REMOTE_MASTER}" != "" ]; then
+	LOAD_FIVE=$(snmpwalk -v 1 -r 1 -c public -O e ${REMOTE_MASTER} .1.3.6.1.4.1.2021.10 | gawk '$1 == "UCD-SNMP-MIB::laLoad.2" { print $4 }')
+	if [ "${LOAD_FIVE}" == "" ]; then
+		LOAD_FIVE="Not Available"
+		LOAD="0.00"
+	fi
+else
+	LOAD_FIVE=$(uptime | gawk {' sub(/,$/,"",$11);print $11 '})
+fi
 LOAD=$(echo $LOAD_FIVE | awk -F '.' {' print $1$2 '})
 
 # Convert LOAD_WAIT variable

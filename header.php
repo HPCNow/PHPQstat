@@ -12,10 +12,16 @@ if ($qstat_reduce == "yes") {
 		exec("./qinfo.sh");
 		$loadcheck = simplexml_load_file("/tmp/load.xml");
 	}
-	if ($loadcheck->check == "yes") {
-		echo "<tr><td><b><font color=red>Refresh waiting due to high load. Last refresh: $loadcheck->last - 5 minute load average: $loadcheck->load</font></b></td></tr>";
+	if ($loadcheck->load == "Not Available") {
+		
+		echo "<tr><td><b><font color=red>Unable to get load from master server, check snmpd server. </font></b>";
 	} else {
-		echo "<tr><td>Last refresh: $loadcheck->last - 5 minute load average: $loadcheck->load</td></tr>";
+		echo "<tr><td>";
+	}
+	if ($loadcheck->check == "yes") {
+		echo "<b><font color=red>Refresh waiting due to high load. Last refresh: $loadcheck->last - 5 minute load average: $loadcheck->load</font></b></td></tr>";
+	} else {
+		echo "Last refresh: $loadcheck->last - 5 minute load average: $loadcheck->load</td></tr>";
 	}
 
 }
