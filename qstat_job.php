@@ -4,8 +4,26 @@
   <title>PHPQstat</title>
   <meta name="AUTHOR" content="Jordi Blasco Pallares ">
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge" >
   <meta name="KEYWORDS" content="gridengine sge sun hpc supercomputing batch queue linux xml qstat qhost jordi blasco solnu">
-  <link rel="stylesheet" href="phpqstat.css" type="text/css" /> 
+  <link rel="stylesheet" type="text/css" href="jquery-ui.min.css"/>
+  <link rel="stylesheet" type="text/css" href="datatables.min.css"/>
+  <script type="text/javascript" src="datatables.min.js"></script>
+  <script type="text/javascript" class="init">
+    $(document).ready(function() {
+        $('#jobtable').DataTable({
+          "paging": false,
+          "info": false,
+          "searching": false,
+        });
+        $('#jobinfo').DataTable({
+          "paging": false,
+          "info": false,
+          "searching": false,
+        });
+    } );
+  </script>
+
 </head>
 
 <?php
@@ -13,10 +31,15 @@ require('time_duration.php');
 $owner  = $_GET['owner'];
 $jobid  = $_GET['jobid'];
 $jobstat  = $_GET['jobstat'];
-echo "<body><table align=center width=95% border=\"1\" cellpadding=\"0\" cellspacing=\"0\"><tbody>";
+echo "<body><table align=center width=100% border=\"0\" cellpadding=\"0\" cellspacing=\"0\"><tbody>";
 include("header.php");
-echo "<tr><td><h1>PHPQstat</h1></td></tr>
-      <tr><td CLASS=\"bottom\" align=center><a href='index.php'>Home</a> *  <a href=\"qhost.php?owner=$owner\">Hosts status</a> *  <a href=\"qstat.php?owner=$owner\">Queue status</a> * <a href=\"qstat_user.php?owner=$owner\">Jobs status ($owner)</a> * <a href=\"about.php?owner=$owner\">About PHPQstat</a></td></tr>";
+echo "<tr><td align=center>
+<a class='ui-button ui-widget ui-corner-all' href=\"index.php\">Home</a>
+<a class='ui-button ui-widget ui-corner-all' href=\"qhost.php?owner=$owner\">Hosts status</a>
+<a class='ui-button ui-widget ui-corner-all' href=\"qstat.php?owner=$owner\">Queue status</a>
+<a class='ui-button ui-widget ui-corner-all' href=\"qstat_user.php?owner=$owner\">Jobs status ($owner)</a>
+<a class='ui-button ui-widget ui-corner-all' href=\"about.php?owner=$owner\">About PHPQstat</a>
+</td></tr>";
 ?>
       <td>
 <br>
@@ -55,18 +78,20 @@ $job_qn=$qstat->djob_info->element[0]->JB_hard_queue_list->destin_ident_list->QR
 $job_pe=$qstat->djob_info->element[0]->JB_pe;
 $job_slots=$qstat->djob_info->element[0]->JB_pe_range->ranges->RN_min;
 
-echo "	<table align=center width=95% border=\"1\" cellpadding=\"0\" cellspacing=\"0\">
-        <tbody>
-		<tr CLASS=\"header\">
-		<td>JobID</td>
-                <td>Name</td>
-                <td>Owner</td>
-                <td>Group</td>
-                <td>SubmitTime</td>
-                <td>Queue</td>
-                <td>PE</td>
-                <td>Slots</td>
+echo "	<table id=\"jobtable\" class=\"display\" align=left cellspacing=\"0\" width=\"100%\">
+        <thead>
+		<tr>
+		<th>JobID</th>
+                <th>Name</th>
+                <th>Owner</th>
+                <th>Group</th>
+                <th>SubmitTime</th>
+                <th>Queue</th>
+                <th>PE</th>
+                <th>Slots</th>
                 </tr>
+        </thead>
+           <tbody>
                 <tr>
                 <td>$jobid</td>
                 <td>$job_name</td>
@@ -86,16 +111,18 @@ foreach ($qstat->xpath('//scaled') as $usage) {
 $usage_stats[$i++]=$usage->UA_value;
 }
 if ($usage_stats[0] > 0){$cputime = time_duration($usage_stats[0], 'dhms');}else{$cputime = 0;}
-echo "	<table align=center width=95% border=\"1\" cellpadding=\"0\" cellspacing=\"0\">
-        <tbody>
-		<tr CLASS=\"header\">
-		<td>CPUTime (s)</td>
-                <td>Mem (GB)</td>
-                <td>io</td>
-                <td>iow</td>
-                <td>VMem (M)</td>
-                <td>MaxVMem (M)</td>
+echo "	<table id=\"jobinfo\" class=\"display\" align=center width=100% cellspacing=\"0\">
+        <thead>
+		<tr>
+		<th>CPUTime (s)</th>
+                <th>Mem (GB)</th>
+                <th>io</th>
+                <th>iow</th>
+                <th>VMem (M)</th>
+                <th>MaxVMem (M)</th>
                 </tr>
+        </thead>
+           <tbody>
                 <tr>
                 <td>$cputime</td>
                 <td>".number_format($usage_stats[1], 2, '.', '')."</td>
