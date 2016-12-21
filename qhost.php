@@ -23,7 +23,7 @@
 
 <?php
 $owner  = $_GET['owner'];
-echo "<body><table align=center width=95% border=\"0\" cellpadding=\"0\" cellspacing=\"0\"><tbody>";
+echo "<body><table align=center width=100% border=\"0\" cellpadding=\"0\" cellspacing=\"0\"><tbody>";
 include("header.php");
 echo "<tr><td align=center>
 <a class='ui-button ui-widget ui-corner-all' href=\"index.php\">Home</a> 
@@ -79,8 +79,12 @@ if ($qstat_reduce != "yes") {
 
 $i=0;
 foreach ($qhost->host as $host) {
-	echo "<tr>";
 	$hostname=$host['name'];
+	if ($hostname == "global") {
+		$i++;
+		continue;
+	}
+	echo "<tr>";
 	echo "          <td>$hostname</td>";
 	foreach ($qhost->host[$i] as $hostvalue) {
 		echo "          <td>$hostvalue</td>";

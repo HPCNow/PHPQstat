@@ -4,8 +4,22 @@
   <title>PHPQstat</title>
   <meta name="AUTHOR" content="Jordi Blasco Pallares ">
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
   <meta name="KEYWORDS" content="gridengine sge sun hpc supercomputing batch queue linux xml qstat qhost jordi blasco solnu">
-  <link rel="stylesheet" href="phpqstat.css" type="text/css" /> 
+  <link rel="stylesheet" type="text/css" href="jquery-ui.min.css"/>
+  <link rel="stylesheet" type="text/css" href="datatables.min.css"/>
+  <script type="text/javascript" src="datatables.min.js"></script>
+  <script type="text/javascript" class="init">
+    $(document).ready(function() {
+        $('#jobtable').DataTable({
+          "lengthMenu": [ [10, 25, 50, 100, -1], [10, 25, 50, 100, "All"] ]
+        });
+        $('#pendingtable').DataTable({
+          "lengthMenu": [ [10, 25, 50, 100, -1], [10, 25, 50, 100, "All"] ]
+        });
+    } );
+  </script>
+
 
  
 </head>
@@ -14,7 +28,7 @@
 $owner  = $_GET['owner'];
 $jobstat  = $_GET['jobstat'];
 $queue  = $_GET['queue'];
-echo "<body><table align=center width=95% border=\"1\" cellpadding=\"0\" cellspacing=\"0\"><tbody>";
+echo "<body><table align=center width=100% border=\"0\" cellpadding=\"0\" cellspacing=\"0\"><tbody>";
 include("header.php");
 
 
@@ -38,22 +52,33 @@ if ($qstat_reduce != "yes" ) {
 function show_run($qstat,$owner,$queue) {
   global $qstat_reduce;
   global $token;
-  echo "<table align=center width=95%xml border=\"1\" cellpadding=\"0\" cellspacing=\"0\">
-	  <tbody>
+  echo "<table id=\"jobtable\" class=\"display\" align=center cellspacing=\"0\" width=\"100%\">
+	  <thead>
 		  <tr>
-		  <td CLASS=\"bottom\" width=120><b>Running Jobs</b></td></tr>
+		  <th>JobID</th>
+		  <th>Owner</th>
+		  <th>Priority</th>
+		  <th>Name</th>
+		  <th>State</th>
+		  <th>Project</th>
+		  <th>Queue</th>
+		  <th>Start Time</th>
+		  <th>PE</th>
+		  <th>Slots</th>
+		  </tr></thead>
+	  <tfoot>
 		  <tr>
-		  <td>JobID</td>
-		  <td>Owner</td>
-		  <td>Priority</td>
-		  <td>Name</td>
-		  <td>State</td>
-		  <td>Project </td>
-		  <td>Queue </td>
-		  <td>Start Time</td>
-		  <td>PE</td>
-		  <td>Slots</td>
-		  </tr>";
+		  <th>JobID</th>
+		  <th>Owner</th>
+		  <th>Priority</th>
+		  <th>Name</th>
+		  <th>State</th>
+		  <th>Project</th>
+		  <th>Queue</th>
+		  <th>Start Time</th>
+		  <th>PE</th>
+		  <th>Slots</th>
+		  </tr></tfoot><tbody>";
   
   if ($qstat_reduce != "yes" ) {
   	$qstat = simplexml_load_file("/tmp/$token.xml");
@@ -89,22 +114,34 @@ function show_run($qstat,$owner,$queue) {
 function show_pend($qstat,$owner,$queue) {
   global $qstat_reduce;
   global $token;
-  echo "<table align=center width=95%xml border=\"1\" cellpadding=\"0\" cellspacing=\"0\">
-	  <tbody>
+  echo "<table id=\"pendingtable\" class=\"display\" align=center cellspacing=\"0\" width=\"100%\">
+	  <thead>
 		  <tr>
-		  <td CLASS=\"bottom\" width=120><b>Pending Jobs</b></td></tr>
+		  <th>JobID</th>
+		  <th>Owner</th>
+		  <th>Priority</th>
+		  <th>Name</th>
+		  <th>State</th>
+		  <th>Project </th>
+		  <th>Queue </th>
+		  <th>Submission Time</th>
+		  <th>PE</th>
+		  <th>Slots</th>
+		  </tr></thead>
+	  <tfoot>
 		  <tr>
-		  <td>JobID</td>
-		  <td>Owner</td>
-		  <td>Priority</td>
-		  <td>Name</td>
-		  <td>State</td>
-		  <td>Project </td>
-		  <td>Queue </td>
-		  <td>Submission Time</td>
-		  <td>PE</td>
-		  <td>Slots</td>
-		  </tr>";
+		  <th>JobID</th>
+		  <th>Owner</th>
+		  <th>Priority</th>
+		  <th>Name</th>
+		  <th>State</th>
+		  <th>Project </th>
+		  <th>Queue </th>
+		  <th>Submission Time</th>
+		  <th>PE</th>
+		  <th>Slots</th>
+		  </tr></tfoot><tbody>";
+
   if ($qstat_reduce != "yes" ) {
   	$qstat = simplexml_load_file("/tmp/$token.xml");
   }
@@ -137,8 +174,13 @@ function show_pend($qstat,$owner,$queue) {
 }
 
 
-echo "<tr><td><h1>PHPQstat</h1></td></tr>
-      <tr><td CLASS=\"bottom\" align=center><a href='index.php'>Home</a> *  <a href=\"qhost.php?owner=$owner\">Hosts status</a> *  <a href=\"qstat.php?owner=$owner\">Queue status</a> * <a href=\"qstat_user.php?owner=$owner\">Jobs status ($owner)</a> * <a href=\"about.php?owner=$owner\">About PHPQstat</a></td></tr><tr><td><br>";
+echo "<tr><td align=center>
+<a class='ui-button ui-widget ui-corner-all' href=\"index.php\">Home</a> 
+<a class='ui-button ui-widget ui-corner-all' href=\"qhost.php?owner=$owner\">Hosts status</a>
+<a class='ui-button ui-widget ui-corner-all' href=\"qstat.php?owner=$owner\">Queue status</a>
+<a class='ui-button ui-widget ui-corner-all' href=\"qstat_user.php?owner=$owner\">Jobs status ($owner)</a>
+<a class='ui-button ui-widget ui-corner-all' href=\"about.php?owner=$owner\">About PHPQstat</a>
+</td></tr>";
 
 if($queue){$queueflag="-q $queue";}else{$queueflag="";}
 

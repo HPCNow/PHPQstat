@@ -4,8 +4,34 @@
   <title>PHPQstat</title>
   <meta name="AUTHOR" content="Jordi Blasco Pallares ">
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
   <meta name="KEYWORDS" content="gridengine sge sun hpc supercomputing batch queue linux xml qstat qhost jordi blasco solnu">
-  <link rel="stylesheet" href="phpqstat.css" type="text/css" /> 
+  <link rel="stylesheet" type="text/css" href="jquery-ui.min.css"/>
+  <link rel="stylesheet" type="text/css" href="datatables.min.css"/>
+  <script type="text/javascript" src="datatables.min.js"></script>
+  <script type="text/javascript" src="jquery-ui.min.js"></script>
+  <script type="text/javascript" class="init">
+    $(document).ready(function() {
+        $('#queues').DataTable({
+          "paging": false,
+          "info": false,
+          "searching": false,
+        });
+        $('#jobs').DataTable({
+          "paging": false,
+          "info": false,
+          "searching": false,
+        });
+    } );
+  </script>
+  <script>
+  $( function() {
+    $( "#tabs-rta" ).tabs({
+       active: 1
+    });
+  } );
+  </script>
+
 <script type="text/javascript">
   function changeIt(view){document.getElementById('rta').src= view;}
 </script>
@@ -14,27 +40,32 @@
 
 <?php
 $owner  = $_GET['owner'];
-echo "<body><table align=center width=95% border=\"1\" cellpadding=\"0\" cellspacing=\"0\"><tbody>";
+echo "<body><table align=center width=100% border=\"0\" cellpadding=\"0\" cellspacing=\"0\"><tbody>";
 include("header.php");
-echo "<tr><td><h1>PHPQstat</h1></td></tr>
-      <tr><td CLASS=\"bottom\" align=center><a href='index.php'>Home</a> *  <a href=\"qhost.php?owner=$owner\">Hosts status</a> *  <a href=\"qstat.php?owner=$owner\">Queue status</a> * <a href=\"qstat_user.php?owner=$owner\">Jobs status ($owner)</a> * <a href=\"about.php?owner=$owner\">About PHPQstat</a></td></tr>";
+echo "<tr><td align=center>
+<a class='ui-button ui-widget ui-corner-all' href=\"index.php\">Home</a>
+<a class='ui-button ui-widget ui-corner-all' href=\"qhost.php?owner=$owner\">Hosts status</a>
+<a class='ui-button ui-widget ui-corner-all' href=\"qstat.php?owner=$owner\">Queue status</a>
+<a class='ui-button ui-widget ui-corner-all' href=\"qstat_user.php?owner=$owner\">Jobs status ($owner)</a>
+<a class='ui-button ui-widget ui-corner-all' href=\"about.php?owner=$owner\">About PHPQstat</a>
+</td></tr>";
 ?>
     <tr>
       <td>
 <br>
 
-	<table align=center width=95% border="1" cellpadding="0" cellspacing="0">
-        <tbody>
-		<tr CLASS="header">
-		<td>Queue</td>
-                <td>Load</td>
-                <td>Used</td>
-                <td>Resv</td>
-                <td>Available</td>
-                <td>Total</td>
-                <td>Temp. disabled</td>
-                <td>Manual intervention</td>
-                </tr>
+	<table id=queues class=display align=center width=100% border="0" cellpadding="0" cellspacing="0">
+        <thead>
+		<tr>
+		<th>Queue</th>
+                <th>Load</th>
+                <th>Used</th>
+                <th>Resv</th>
+                <th>Available</th>
+                <th>Total</th>
+                <th>Temp. disabled</th>
+                <th>Manual intervention</th>
+                </tr></thead><tbody>
 
 <?php
 if ($qstat_reduce != "yes" ) {
@@ -83,13 +114,13 @@ echo "                </tbody>
 	</table>
 
 <br>
-	<table align=center width=95% border='1' cellpadding='0' cellspacing='0'>
-        <tbody>
-		<tr CLASS='header'>
-		<td>Jobs status</td>
-                <td>Total</td>
-                <td>Slots</td>
-                </tr>
+	<table id=jobs class=display align=center width=100% border='0' cellpadding='0' cellspacing='0'>
+        <thead>
+		<tr>
+		<th>Jobs status</th>
+                <th>Total</th>
+                <th>Slots</th>
+                </tr></thead><tbody>
 
 ";
 
@@ -141,26 +172,48 @@ if ($qstat_reduce != "yes" ) {
 	exec("rm /tmp/$token.xml");
 }
 ?>
-
-	  </tbody>
-	</table>
+          </tbody>
+        </table>
 <br>
-	<table align=center border="1" cellpadding="0" cellspacing="0">
-        <tbody>
-		<tr class="header"><td align="center">Real-time Accounting : 
-		<a href="#" onclick="changeIt('img/hour.png')">hour</a> - 
-		<a href="#" onclick="changeIt('img/day.png')">day</a> - 
-		<a href="#" onclick="changeIt('img/week.png')">week</a> - 
-		<a href="#" onclick="changeIt('img/month.png')">month</a> - 
-		<a href="#" onclick="changeIt('img/year.png')">year</a></td></tr>
-		<tr><td>
-		<img src="img/hour.png" id='rta' border='0'></td></tr>
-	</tbody>
-	</table>
-<br>
-      </td>
-    </tr>
 <?php
+$mapping = array(
+    'rta'       => '',
+);
+
+$descr = array(
+    'rta'       => 'Running Jobs by queue + queue wait',
+);
+
+$times = array(
+    'hour',
+    'day',
+    'week',
+    'month',
+    'year',
+);
+
+foreach (array_keys($mapping) as $key) {
+    echo '<br>
+        <table align=center border="0" cellpadding="0" cellspacing="0">
+        <tbody><tr><td>';
+    echo "<div id=\"tabs-$key\"><ul>\n";
+    foreach ($times as $time) {
+          echo "<li><a href=\"#tabs-$key-$time\">$time</a></li>\n";
+    }
+    echo "</ul>\n";
+    foreach ($times as $time) {
+        if ($mapping[$key] == 'rta') {
+          echo "<div id=\"tabs-$key-$time\"><p><img src=\"img/$time.png\" border='0'></p></div>\n";
+        } else {
+          echo "<div id=\"tabs-$key-$time\"><p><img src=\"img/$mapping[$key]$time.png\" border='0'></p></div>\n";
+        }
+    }
+    echo "    </div></td></tr>
+    </tbody>
+    </table>";
+}
+
+
 include("bottom.php");
 ?>
   </tbody>
