@@ -30,7 +30,7 @@ sge_master host: snmpd, awk
 INSTALL
 ==============================================
 1. Copy all files in your web accesible filesystem or download the project using GIT:  
-  git clone git://github.com/LydiaSevelt/PHPQstat.git
+  git clone https://github.com/LydiaSevelt/PHPQstat
 2. Setup the following paths on phpqstat.conf :  
   SGE_ROOT=/opt/sge  
   RRD_ROOT=/var/www/PHPQstat/rrd  
