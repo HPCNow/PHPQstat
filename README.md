@@ -55,6 +55,10 @@ SETTING UP A REMOTE MASTER CONFIG
     view    systemview    included   .1.3.6.1.4.1.2021.10
     access  notConfigGroup ""      any       noauth    exact  systemview none none
 
+OPTIONAL
+----------------------------------------------
+(9) Replace PHPQstat/img/logo.png with the logo of your company/school/whatever to add branding to the page
+
 TODO LIST
 ==============================================
 * Add additional job information to job page
