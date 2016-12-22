@@ -73,10 +73,19 @@ $job_name=$qstat->djob_info->element[0]->JB_job_name;
 $job_owner=$qstat->djob_info->element[0]->JB_owner;
 $job_group=$qstat->djob_info->element[0]->JB_group;
 $job_ust=$qstat->djob_info->element[0]->JB_submission_time;
-$job_st=date(r,number_format($job_ust, 0, '', ''));
+$job_st=date(r,(int) $job_ust);
+//$job_st=date(r,(int) substr($job_ust,0,-3)); UGE specific
+$job_rust=$qstat->djob_info->element[0]->JB_ja_tasks->ulong_sublist->JAT_start_time;
+$job_rst=date(r,(int) $job_rust);
 $job_qn=$qstat->djob_info->element[0]->JB_hard_queue_list->destin_ident_list->QR_name;
+//$job_qn=$qstat->djob_info->element[0]->JB_hard_queue_list->element->QR_name; UGE specific
 $job_pe=$qstat->djob_info->element[0]->JB_pe;
 $job_slots=$qstat->djob_info->element[0]->JB_pe_range->ranges->RN_min;
+
+if (!$job_slots) { //SGE only?
+	// not in a pe environment, assume one slot
+	$job_slots=1;
+}
 
 echo "	<table id=\"jobtable\" class=\"display\" align=left cellspacing=\"0\" width=\"100%\">
         <thead>
@@ -85,7 +94,8 @@ echo "	<table id=\"jobtable\" class=\"display\" align=left cellspacing=\"0\" wid
                 <th>Name</th>
                 <th>Owner</th>
                 <th>Group</th>
-                <th>SubmitTime</th>
+                <th>Submit Time</th>
+                <th>Start Time</th>
                 <th>Queue</th>
                 <th>PE</th>
                 <th>Slots</th>
@@ -98,6 +108,7 @@ echo "	<table id=\"jobtable\" class=\"display\" align=left cellspacing=\"0\" wid
                 <td>$job_owner</td>
                 <td>$job_group</td>
                 <td>$job_st</td>
+                <td>$job_rst</td>
                 <td>$job_qn</td>
                 <td>$job_pe</td>
                 <td>$job_slots</td>
