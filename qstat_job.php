@@ -72,19 +72,25 @@ $qstat = simplexml_load_file("/tmp/$token.xml");
 $job_name=$qstat->djob_info->element[0]->JB_job_name;
 $job_owner=$qstat->djob_info->element[0]->JB_owner;
 $job_group=$qstat->djob_info->element[0]->JB_group;
-$job_ust=$qstat->djob_info->element[0]->JB_submission_time;
-$job_st=date(r,(int) $job_ust);
-//$job_st=date(r,(int) substr($job_ust,0,-3)); UGE specific
-$job_rust=$qstat->djob_info->element[0]->JB_ja_tasks->ulong_sublist->JAT_start_time;
-if ($job_rust) {
-	$job_rst=date(r,(int) $job_rust);
-}
-$job_qn=$qstat->djob_info->element[0]->JB_hard_queue_list->destin_ident_list->QR_name;
-//$job_qn=$qstat->djob_info->element[0]->JB_hard_queue_list->element->QR_name; UGE specific
 $job_pe=$qstat->djob_info->element[0]->JB_pe;
+$job_ust=$qstat->djob_info->element[0]->JB_submission_time;
+if ($UGE == "yes") {
+	$job_qn=$qstat->djob_info->element[0]->JB_hard_queue_list->element->QR_name; UGE specific
+	$job_st=date(r,(int) substr($job_ust,0,-3));
+	$job_rust=$qstat->djob_info->element[0]->JB_ja_tasks->element->JAT_start_time;
+	if ($job_rust) {
+		$job_rst=date(r,(int) substr($job_rust,0,-3));
+	}
+} else {
+	$job_qn=$qstat->djob_info->element[0]->JB_hard_queue_list->destin_ident_list->QR_name;
+	$job_st=date(r,(int) $job_ust);
+	$job_rust=$qstat->djob_info->element[0]->JB_ja_tasks->ulong_sublist->JAT_start_time;
+	if ($job_rust) {
+		$job_rst=date(r,(int) $job_rust);
+	}
+}
 $job_slots=$qstat->djob_info->element[0]->JB_pe_range->ranges->RN_min;
-
-if (!$job_slots) { //SGE only?
+if (!$job_slots) {
 	// not in a pe environment, assume one slot
 	$job_slots=1;
 }
