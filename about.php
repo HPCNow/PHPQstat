@@ -30,11 +30,13 @@ echo "<tr><td align=center>
 <center>
 <table align=center width=50% border="0" cellpadding="0" cellspacing="0">
 <tr><td align=center>
-<b>PHPQstat</b> is a web interface that allows to connect to the usefull commands of the Grid Engine (GE) batch queue system. With this interface, you can monitor your job status and your queues health at real time.<br><br>
-<b>AUTHORS</b> Originally written by Jordi Blasco Pallarès.<br>
-UGE supprt and additional functionallity and added by Lydia Sevelt<br><br>
-<b>LICENSE</b> This is free software: you are free to change and redistribute it. GNU General Public License version 3.0 (<a href=http://gnu.org/licenses/gpl.html target=gpl>GPLv3</a>).<br><br>
-<b>Version : 0.2.5 (September 2016)</b><br>
+<b>PHPQstat</b><br>A web interface to qstat and other useful commands of the Grid Engine (GE) batch queue system.<br>
+With this interface, you and your users can monitor your jobs and your queue status conveniently via a web browser.<br><br>
+<b>AUTHORS</b><br>
+HTML5 interface, UGE support and additional features added by Lydia Sevelt<br>
+Originally written by Jordi Blasco Pallarès.<br><br>
+<b>LICENSE</b><br>This is free software: you are free to change and redistribute it. GNU General Public License version 3.0 (<a href=http://gnu.org/licenses/gpl.html target=gpl>GPLv3</a>).<br><br>
+<b>Version : 0.3.0 (December 2016)</b><br>
 <a href=https://github.com/LydiaSevelt/PHPQstat>https://github.com/LydiaSevelt/PHPQstat</a><br>
 </td></tr>
 </table>
