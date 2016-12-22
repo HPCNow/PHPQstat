@@ -45,11 +45,11 @@ echo "<tr><td align=center>
 		<th>Hostname</th>
                 <th>Architecture</th>
                 <th>NCPU</th>
-                <th>Load avg</th>
-                <th>mem_total</th>
-                <th>mem_used</th>
-                <th>swap_total</th>
-                <th>swap_used</th>
+                <th>Load Avgerage</th>
+                <th>Memory Total</th>
+                <th>Memory Used</th>
+                <th>Swap Total</th>
+                <th>Swap Used</th>
                 </tr></thead><tbody>
 <?php
 if ($qstat_reduce != "yes") {
