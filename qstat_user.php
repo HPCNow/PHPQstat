@@ -94,6 +94,7 @@ function show_run($qstat,$owner,$queue) {
 	    continue;
 	  }
 	  $pe=$job_list->requested_pe['name'];
+	  $JAT_start=str_replace('T', ' ', $job_list->JAT_start_time);
 	  echo "          <tr>
 			  <td><a href=qstat_job.php?jobid=$job_list->JB_job_number&owner=$owner>$job_list->JB_job_number</a></td>
 			  <td><a href=qstat_user.php?owner=$job_list->JB_owner>$job_list->JB_owner</a></td>
@@ -102,7 +103,7 @@ function show_run($qstat,$owner,$queue) {
 			  <td>$job_list->state</td>
 			  <td>$job_list->JB_project</td>
 			  <td><a href=qstat_user.php?queue=$job_list->queue_name&owner=$owner>$job_list->queue_name</a></td>
-			  <td>$job_list->JAT_start_time</td>
+			  <td>$JAT_start</td>
 			  <td>$pe</td>
 			  <td>$job_list->slots</td>
 			  </tr>";
@@ -156,6 +157,7 @@ function show_pend($qstat,$owner,$queue) {
 	    continue;
 	  }
 	  $pe=$job_list->requested_pe['name'];
+	  $JB_submission=str_replace('T', ' ', $job_list->JB_submission_time);
 	  echo "          <tr>
 			  <td><a href=qstat_job.php?jobid=$job_list->JB_job_number&owner=$owner>$job_list->JB_job_number</a></td>
 			  <td><a href=qstat_user.php?owner=$job_list->JB_owner>$job_list->JB_owner</a></td>
@@ -164,7 +166,7 @@ function show_pend($qstat,$owner,$queue) {
 			  <td>$job_list->state</td>
 			  <td>$job_list->JB_project</td>
 			  <td><a href=qstat_user.php?queue=$job_list->queue_name&owner=$owner>$job_list->queue_name</a></td>
-			  <td>$job_list->JB_submission_time</td>
+			  <td>$JB_submission</td>
 			  <td>$pe</td>
 			  <td>$job_list->slots</td>
 			  </tr>";
