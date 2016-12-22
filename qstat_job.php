@@ -75,7 +75,7 @@ $job_group=$qstat->djob_info->element[0]->JB_group;
 $job_pe=$qstat->djob_info->element[0]->JB_pe;
 $job_ust=$qstat->djob_info->element[0]->JB_submission_time;
 if ($UGE == "yes") {
-	$job_qn=$qstat->djob_info->element[0]->JB_hard_queue_list->element->QR_name; UGE specific
+	$job_qn=$qstat->djob_info->element[0]->JB_hard_queue_list->element->QR_name;
 	$job_st=date(r,(int) substr($job_ust,0,-3));
 	$job_rust=$qstat->djob_info->element[0]->JB_ja_tasks->element->JAT_start_time;
 	if ($job_rust) {
