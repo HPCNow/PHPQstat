@@ -138,9 +138,9 @@ echo "	<table id=\"jobinfo\" class=\"display\" align=center width=100% cellspaci
            <tbody>
                 <tr>
                 <td>$cputime</td>
-                <td>".number_format($usage_stats[1], 2, '.', '')."</td>
-                <td>".number_format($usage_stats[2], 2, '.', '')."</td>
-                <td>".number_format($usage_stats[3], 2, '.', '')."</td>
+                <td>".number_format($usage_stats[1]+0, 2, '.', '')."</td>
+                <td>".number_format($usage_stats[2]+0, 2, '.', '')."</td>
+                <td>".number_format($usage_stats[3]+0, 2, '.', '')."</td>
                 <td>".number_format($usage_stats[4]/1024/1024, 2, '.', '')."</td>
                 <td>".number_format($usage_stats[5]/1024/1024, 2, '.', '')."</td>
               </tr>	  
