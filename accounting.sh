@@ -6,7 +6,7 @@ source /var/www/PHPQstat/phpqstat.conf
 #########################################
 
 if ! [ -d $RRD_ROOT ]; then mkdir -p $RRD_ROOT; fi
-#QUEUES=$(qconf -sql | cut -d. -f1)
+QUEUES=$(qconf -sql | cut -d. -f1)
 
 # Inici BBDD
 #################
@@ -73,7 +73,7 @@ rrdtool graph $WEB_ROOT/img/hour.png -a PNG -s -1hour -t "HPC Accounting (hourly
 
 rrdtool graph $WEB_ROOT/img/day.png -a PNG -s -1day -t "HPC Accounting (daily)" -h 200 -w 600 -v "Used CPU's" COMMENT:"             Min Used" COMMENT:"   Max Used"  COMMENT:"    Avg Used \\l" $datagrups COMMENT:"Last update\: $DATE" > /dev/null
 
-rrdtool graph $WEB_ROOT/img/week.png -a PNG -s -1week -t "HCP Accounting (Weekly)" -h 200 -w 600 -v "Used CPU's" COMMENT:"             Min Used" COMMENT:"   Max Used"  COMMENT:"    Avg Used \\l" $datagrups COMMENT:"Last update\: $DATE" > /dev/null
+rrdtool graph $WEB_ROOT/img/week.png -a PNG -s -1week -t "HPC Accounting (Weekly)" -h 200 -w 600 -v "Used CPU's" COMMENT:"             Min Used" COMMENT:"   Max Used"  COMMENT:"    Avg Used \\l" $datagrups COMMENT:"Last update\: $DATE" > /dev/null
 
 rrdtool graph $WEB_ROOT/img/month.png -a PNG -s -1month -t "HPC Accounting (Monthly)" -h 200 -w 600 -v "Used CPU's" COMMENT:"             Min Used" COMMENT:"   Max Used"  COMMENT:"    Avg Used \\l" $datagrups COMMENT:"Last update\: $DATE" > /dev/null
 
