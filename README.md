@@ -42,7 +42,7 @@ INSTALL
     $UGE="yes";  
 5. If using qstat_reduce set LOAD_WAIT variable in phpqstat.conf for high load average protection :  
     LOAD_WAIT=10.00  
-6. Add the following line on the crontab :  
+6. Add the following line to the proper users crontab :  
     */3 * * * * /var/www/PHPQstat/accounting.sh > /dev/null 2>&1
 
   SETTING UP A REMOTE MASTER CONFIG
