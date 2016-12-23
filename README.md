@@ -10,6 +10,9 @@ Originally written by Jordi Blasco Pallarès (jordi.blasco@hpcnow.com).
 **REPORTING BUGS**  
 Report bugs to GitHUB issue Tracker https://github.com/LydiaSevelt/PHPQstat/issues
 
+**ADDITIONAL LIBRARIES**  
+The HTML5 interface utilizes the excellent datatables (https://datatables.net) and jquery (https://jquery.com) javascript libraries.  
+
 **LICENSE**  
 This is free software: you are free to change and redistribute it. GNU General Public License version 3.0 (GPLv3).
 
@@ -27,7 +30,7 @@ Queue Status page with two test queues.
 ![Alt text](https://cloud.githubusercontent.com/assets/4594964/21457190/37e6a6fc-c8fb-11e6-8b6c-f1b04b920e5c.jpg "Queue Status")
 
 
-All Jobs on the cluster, both running and in queue, fields are sortable, in the screenshot I am using the search feature to filter the running jobs table.
+All Jobs on the cluster, both running and in queue, tables are sortable by field, in the screenshot I am using the search feature to filter the running jobs table.
 ![Alt text](https://cloud.githubusercontent.com/assets/4594964/21457203/5405e6b8-c8fb-11e6-9039-4af29a50761a.jpg "Job Status")
 
 
