@@ -18,6 +18,27 @@ This is free software: you are free to change and redistribute it. GNU General P
 
 https://github.com/LydiaSevelt/PHPQstat
 
+SCREENSHOTS
+==============================================
+Screenshots were taken from a test instance of Son of Grid Engine 8.1.9
+
+
+Queue Status page with two test queues.
+![Alt text](https://cloud.githubusercontent.com/assets/4594964/21457190/37e6a6fc-c8fb-11e6-8b6c-f1b04b920e5c.jpg "Queue Status")
+
+
+All Jobs on the cluster, both running and in queue, fields are sortable, in the screenshot I am using the search feature to filter the running jobs table.
+![Alt text](https://cloud.githubusercontent.com/assets/4594964/21457203/5405e6b8-c8fb-11e6-9039-4af29a50761a.jpg "Job Status")
+
+
+Job information page displaying some details about a running job.
+![Alt text](https://cloud.githubusercontent.com/assets/4594964/21457210/5d1d7108-c8fb-11e6-8609-79425139d3f2.jpg "Job Info")
+
+
+Hosts Status with only the one desktop as the single host, so not very impressive looking.
+![Alt text](https://cloud.githubusercontent.com/assets/4594964/21457439/53acf240-c8fd-11e6-9c04-31d40a264593.jpg "Hosts Status")
+
+
 DEPENDENCIES
 ==============================================
 Basic setup (on sge_master host):  
@@ -33,6 +54,7 @@ INSTALL
   git clone https://github.com/LydiaSevelt/PHPQstat
 2. Setup the following paths on phpqstat.conf :  
   SGE_ROOT=/opt/sge  
+  SGE_CELL=default  
   RRD_ROOT=/var/www/PHPQstat/rrd  
   WEB_ROOT=/var/www/PHPQstat  
 3. Setup the following config variables in config.inc.php :  
@@ -40,16 +62,23 @@ INSTALL
     $cache_time="3";  
 4. If using Univa Grid Engine set the variable in config.inc.php :  
     $UGE="yes";  
-5. If using qstat_reduce set LOAD_WAIT variable in phpqstat.conf for high load average protection :  
+5. If using Son of Grid Engine and you do *not* already have a /$SGE_ROOT/$SGE_CELL/common/settings.sh file  
+   then copy the sog.8.1.9.settings.sh file to /$SGE_ROOT/$SGE_CELL/common/settings.sh and modify  
+   the variables to match your config :  
+     export SGE_ROOT="/opt/sge"  
+     export SGE_CELL="default"  
+     export SGE_CLUSTER_NAME="p6444"  
+     export DRMAA_LIBRARY_PATH="/opt/sge/lib//libdrmaa.so"  
+6. If using qstat_reduce set LOAD_WAIT variable in phpqstat.conf for high load average protection :  
     LOAD_WAIT=10.00  
-6. Add the following line to the proper users crontab :  
+7. Add the following line to the proper users crontab :  
     */3 * * * * /var/www/PHPQstat/accounting.sh > /dev/null 2>&1
 
   SETTING UP A REMOTE MASTER CONFIG
   ----------------------------------------------
-7. Set REMOTE_MASTER in phpqstat.conf to the hostname of sge_master server :  
+8. Set REMOTE_MASTER in phpqstat.conf to the hostname of sge_master server :  
     REMOTE_MASTER=sgemaster.company.com  
-8. Configure snmpd on sge_master host to provide uptime and load information via community public :  
+9. Configure snmpd on sge_master host to provide uptime and load information via community public :  
     ```
     com2sec notConfigUser  default       public  
     group   notConfigGroup v1           notConfigUser  
@@ -59,11 +88,12 @@ INSTALL
     
   OPTIONAL
   ----------------------------------------------
-9. Replace PHPQstat/img/logo.png with the logo of your company/school to brand the page  
+10. Replace PHPQstat/img/logo.png with the logo of your company/school to brand the page  
 
 TODO LIST
 ==============================================
 * Add additional job information to job page
+* Add install script to take care of some of the tedium automatically
 * Add job accounting page and qstat_reduce functionality to allow users to view stats on completed jobs
 * Completely replace rrdtool graphs with something pretty (grafana?)
 
