@@ -28,9 +28,21 @@
 
 <?php
 require('time_duration.php');
-$owner  = $_GET['owner'];
-$jobid  = $_GET['jobid'];
-$jobstat  = $_GET['jobstat'];
+if (isset($_GET['owner'])) {
+        $owner = $_GET['owner'];
+} else {
+        $owner = 'all';
+}
+if (isset($_GET['jobid'])) {
+        $jobid = $_GET['jobid'];
+} else {
+        $jobid = '';
+}
+if (isset($_GET['jobstat'])) {
+        $jobstat = $_GET['jobstat'];
+} else {
+        $jobstat = '';
+}
 echo "<body><table align=center width=100% border=\"0\" cellpadding=\"0\" cellspacing=\"0\"><tbody>";
 include("header.php");
 echo "<tr><td align=center>
@@ -77,16 +89,28 @@ $job_ust=$qstat->djob_info->element[0]->JB_submission_time;
 if ($UGE == "yes") {
 	$job_qn=$qstat->djob_info->element[0]->JB_hard_queue_list->element->QR_name;
 	$job_st=date(r,(int) substr($job_ust,0,-3));
-	$job_rust=$qstat->djob_info->element[0]->JB_ja_tasks->element->JAT_start_time;
-	if ($job_rust) {
-		$job_rst=date(r,(int) substr($job_rust,0,-3));
+	if (isset($qstat->djob_info->element[0]->JB_ja_tasks->element->JAT_start_time)) {
+		// job running (or suspended)
+		$job_rust=$qstat->djob_info->element[0]->JB_ja_tasks->element->JAT_start_time;
+		$job_rst=date('r',(int) substr($job_rust,0,-3));
+		$jobstateflag='r';
+	} else {
+		// job not running (assume pending)
+		$job_rst='';
+		$jobstateflag='qw';
 	}
 } else {
 	$job_qn=$qstat->djob_info->element[0]->JB_hard_queue_list->destin_ident_list->QR_name;
 	$job_st=date(r,(int) $job_ust);
-	$job_rust=$qstat->djob_info->element[0]->JB_ja_tasks->ulong_sublist->JAT_start_time;
-	if ($job_rust) {
+	if (isset($qstat->djob_info->element[0]->JB_ja_tasks->ulong_sublist->JAT_start_time)) {
+		// job running (or suspended)
+		$job_rust=$qstat->djob_info->element[0]->JB_ja_tasks->ulong_sublist->JAT_start_time;
 		$job_rst=date(r,(int) $job_rust);
+		$jobstateflag='r';
+	} else {
+		// job not running (assume pending)
+		$job_rst='';
+		$jobstateflag='qw';
 	}
 }
 $job_slots=$qstat->djob_info->element[0]->JB_pe_range->ranges->RN_min;
@@ -124,34 +148,36 @@ echo "	<table id=\"jobtable\" class=\"display\" align=left cellspacing=\"0\" wid
            </tbody>
 	</table><br>";
 
-
-$i=0;
-foreach ($qstat->xpath('//scaled') as $usage) {
-$usage_stats[$i++]=$usage->UA_value;
+if ($jobstateflag == 'r') {
+        // Only display if job is running
+	$i=0;
+	foreach ($qstat->xpath('//scaled') as $usage) {
+	$usage_stats[$i++]=$usage->UA_value;
+	}
+	if ($usage_stats[0] > 0){$cputime = time_duration($usage_stats[0], 'dhms');}else{$cputime = 0;}
+	echo "	<table id=\"jobinfo\" class=\"display\" align=center width=100% cellspacing=\"0\">
+		<thead>
+			<tr>
+			<th>CPUTime (s)</th>
+			<th>Mem (GB)</th>
+			<th>io</th>
+			<th>iow</th>
+			<th>VMem (M)</th>
+			<th>MaxVMem (M)</th>
+			</tr>
+		</thead>
+		   <tbody>
+			<tr>
+			<td>$cputime</td>
+			<td>".number_format($usage_stats[1]+0, 2, '.', '')."</td>
+			<td>".number_format($usage_stats[2]+0, 2, '.', '')."</td>
+			<td>".number_format($usage_stats[3]+0, 2, '.', '')."</td>
+			<td>".number_format($usage_stats[4]/1024/1024, 2, '.', '')."</td>
+			<td>".number_format($usage_stats[5]/1024/1024, 2, '.', '')."</td>
+		      </tr>	  
+		   </tbody>
+		</table><br>";
 }
-if ($usage_stats[0] > 0){$cputime = time_duration($usage_stats[0], 'dhms');}else{$cputime = 0;}
-echo "	<table id=\"jobinfo\" class=\"display\" align=center width=100% cellspacing=\"0\">
-        <thead>
-		<tr>
-		<th>CPUTime (s)</th>
-                <th>Mem (GB)</th>
-                <th>io</th>
-                <th>iow</th>
-                <th>VMem (M)</th>
-                <th>MaxVMem (M)</th>
-                </tr>
-        </thead>
-           <tbody>
-                <tr>
-                <td>$cputime</td>
-                <td>".number_format($usage_stats[1]+0, 2, '.', '')."</td>
-                <td>".number_format($usage_stats[2]+0, 2, '.', '')."</td>
-                <td>".number_format($usage_stats[3]+0, 2, '.', '')."</td>
-                <td>".number_format($usage_stats[4]/1024/1024, 2, '.', '')."</td>
-                <td>".number_format($usage_stats[5]/1024/1024, 2, '.', '')."</td>
-              </tr>	  
-           </tbody>
-	</table><br>";
 
 exec("rm /tmp/$token.xml");
 ?>

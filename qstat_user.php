@@ -31,8 +31,16 @@ if (isset($_GET['owner'])) {
 } else {
 	$owner = 'all';
 }
-$jobstat  = isset($_GET['jobstat']);
-$queue  = isset($_GET['queue']);
+if (isset($_GET['jobstat'])) {
+        $jobstat = $_GET['jobstat'];
+} else {
+        $jobstat = '';
+}
+if (isset($_GET['queue'])) {
+        $queue = $_GET['queue'];
+} else {
+        $queue = '';
+}
 echo "<body><table align=center width=100% border=\"0\" cellpadding=\"0\" cellspacing=\"0\"><tbody>";
 include("header.php");
 
