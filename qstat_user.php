@@ -15,7 +15,8 @@
           "lengthMenu": [ [10, 25, 50, 100, -1], [10, 25, 50, 100, "All"] ]
         });
         $('#pendingtable').DataTable({
-          "lengthMenu": [ [10, 25, 50, 100, -1], [10, 25, 50, 100, "All"] ]
+          "lengthMenu": [ [10, 25, 50, 100, -1], [10, 25, 50, 100, "All"] ],
+	  "order": [[ 2, "desc" ]]
         });
     } );
   </script>
