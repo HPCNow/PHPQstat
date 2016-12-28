@@ -26,9 +26,13 @@
 </head>
 
 <?php
-$owner  = $_GET['owner'];
-$jobstat  = $_GET['jobstat'];
-$queue  = $_GET['queue'];
+if (isset($_GET['owner'])) {
+	$owner  = $_GET['owner'];
+} else {
+	$owner = 'all';
+}
+$jobstat  = isset($_GET['jobstat']);
+$queue  = isset($_GET['queue']);
 echo "<body><table align=center width=100% border=\"0\" cellpadding=\"0\" cellspacing=\"0\"><tbody>";
 include("header.php");
 
