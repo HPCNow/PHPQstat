@@ -69,25 +69,12 @@ echo "<tr><td align=center>
 
 <?php
 if ($qstat_reduce != "yes" ) {
-	$password_length = 20;
-
-	function make_seed() {
-	  list($usec, $sec) = explode(' ', microtime());
-	  return (float) $sec + ((float) $usec * 100000);
-	}
-
-	srand(make_seed());
-
-	$alfa = "1234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM";
-	$token = "";
-	for($i = 0; $i < $password_length; $i ++) {
-	  $token .= $alfa[rand(0, strlen($alfa))];
-	}
-
-	$out = exec("./gexml -u all -R -o /tmp/$token.xml");
+	$token = null;
+	$token = tempnam(sys_get_temp_dir(), 'PHPQstat-');
+	$out = exec("./gexml -u all -R -o $token");
 
 	//printf("System Output: $out\n"); 
-	$qstat = simplexml_load_file("/tmp/$token.xml");
+	$qstat = simplexml_load_file("$token");
 
 	//$qstat = simplexml_load_file("/home/xadmin/phpqstat/qstat_user.xml");
 } else {
@@ -107,7 +94,7 @@ echo "                <tr>
                 </tr>";
 }
 if ($qstat_reduce != "yes" ) {
-	exec("rm /tmp/$token.xml");
+	unlink($token);
 }
 
 echo "                </tbody>
@@ -125,8 +112,8 @@ echo "                </tbody>
 ";
 
 if ($qstat_reduce != "yes" ) {
-	$out2 = exec("./gexml -u all -o /tmp/$token.xml");
-	$jobs = simplexml_load_file("/tmp/$token.xml");
+	$out2 = exec("./gexml -u all -o $token");
+	$jobs = simplexml_load_file("$token");
 } else {
 	$jobs = simplexml_load_file("/tmp/qstat_all.xml");
 }
@@ -169,7 +156,7 @@ echo "          <tr>
                 </tr>
 ";
 if ($qstat_reduce != "yes" ) {
-	exec("rm /tmp/$token.xml");
+	unlink($token);
 }
 ?>
           </tbody>

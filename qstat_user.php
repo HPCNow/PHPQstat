@@ -44,9 +44,9 @@ if (isset($_GET['queue'])) {
 echo "<body><table align=center width=100% border=\"0\" cellpadding=\"0\" cellspacing=\"0\"><tbody>";
 include("header.php");
 
-$token = null;
 if ($qstat_reduce != "yes" ) {
-    $token = tempnam(sys_get_temp_dir(), 'PHPQstat-');
+	$token = null;
+	$token = tempnam(sys_get_temp_dir(), 'PHPQstat-');
 }
 
 function show_run($qstat,$owner,$queue) {

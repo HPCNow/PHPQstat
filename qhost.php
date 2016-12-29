@@ -53,26 +53,12 @@ echo "<tr><td align=center>
                 </tr></thead><tbody>
 <?php
 if ($qstat_reduce != "yes") {
-
-	$password_length = 20;
-
-	function make_seed() {
-	  list($usec, $sec) = explode(' ', microtime());
-	  return (float) $sec + ((float) $usec * 100000);
-	}
-
-	srand(make_seed());
-
-	$alfa = "1234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM";
-	$token = "";
-	for($i = 0; $i < $password_length; $i ++) {
-	  $token .= $alfa[rand(0, strlen($alfa))];
-	}
-
-	$out = exec("./qhostout /tmp/$token.xml");
+	$token = null;
+	$token = tempnam(sys_get_temp_dir(), 'PHPQstat-');
+	$out = exec("./qhostout $token");
 
 	//printf("System Output: $out\n"); 
-	$qhost = simplexml_load_file("/tmp/$token.xml");
+	$qhost = simplexml_load_file("$token");
 } else {
 	$qhost = simplexml_load_file("/tmp/qhost.xml");
 }
@@ -94,7 +80,7 @@ foreach ($qhost->host as $host) {
 }
 
 if ($qstat_reduce != "yes") {
-	exec("rm /tmp/$token.xml");
+	unlink($token);
 }
 
 ?>

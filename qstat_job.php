@@ -60,24 +60,13 @@ echo "<tr><td align=center>
 
 
 <?php
-$password_length = 20;
+$token = null;
+$token = tempnam(sys_get_temp_dir(), 'PHPQstat-');
 
-function make_seed() {
-  list($usec, $sec) = explode(' ', microtime());
-  return (float) $sec + ((float) $usec * 100000);
-}
-
-srand(make_seed());
-
-$alfa = "1234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM";
-$token = "";
-for($i = 0; $i < $password_length; $i ++) {
-  $token .= $alfa[rand(0, strlen($alfa))];
-}
 if($jobstat){$jobstatflag="-s $jobstat";}else{$jobstatflag="";}
-$out = exec("./gexml -j $jobid $jobstatflag -u all -o /tmp/$token.xml");
+$out = exec("./gexml -j $jobid $jobstatflag -u all -o $token");
 
-$qstat = simplexml_load_file("/tmp/$token.xml");
+$qstat = simplexml_load_file("$token");
 
 //foreach ($qstat->xpath('detailed_job_info->djob_info->element') as $element) {
 //foreach ($qstat->element[0] as $element) {
@@ -179,7 +168,7 @@ if ($jobstateflag == 'r') {
 		</table><br>";
 }
 
-exec("rm /tmp/$token.xml");
+unlink($token);
 ?>
 
 
