@@ -174,7 +174,7 @@ if ($jobstateflag == 'r') {
 			<td>".number_format($usage_stats[3]+0, 2, '.', '')."</td>
 			<td>".number_format($usage_stats[4]/1024/1024, 2, '.', '')."</td>
 			<td>".number_format($usage_stats[5]/1024/1024, 2, '.', '')."</td>
-		      </tr>	  
+		      </tr>
 		   </tbody>
 		</table><br>";
 }
