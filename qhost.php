@@ -45,7 +45,7 @@ echo "<tr><td align=center>
 		<th>Hostname</th>
                 <th>Architecture</th>
                 <th>NCPU</th>
-                <th>Load Avgerage</th>
+                <th>Load Average</th>
                 <th>Memory Total</th>
                 <th>Memory Used</th>
                 <th>Swap Total</th>
