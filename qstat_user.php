@@ -50,8 +50,6 @@ if ($qstat_reduce != "yes" ) {
 }
 
 function show_run($qstat,$owner,$queue) {
-  global $qstat_reduce;
-  global $token;
   echo "<table id=\"jobtable\" class=\"display\" align=center cellspacing=\"0\" width=\"100%\">
 	  <thead>
 		  <tr>
@@ -79,11 +77,41 @@ function show_run($qstat,$owner,$queue) {
 		  <th>PE</th>
 		  <th>Slots</th>
 		  </tr></tfoot><tbody>";
-  
-  if ($qstat_reduce != "yes" ) {
-  	$qstat = simplexml_load_file("$token");
-  }
+
+
+  $pe_job_num='';
+  $pe_queue='';
+  $pe_queue_null='';
   foreach ($qstat->xpath('//job_list') as $job_list) {
+	  if ($pe_job_num) {
+		if ("$job_list->JB_job_number" == "$pe_job_num") {
+			$pe_queue=$pe_queue . "<br/><a href=qstat_user.php?queue=$job_list->queue_name&owner=$owner>" . $job_list->queue_name . "</a>";
+			continue;
+		} else {
+			if ($pe_queue) {
+				if ($UGE == "yes") {
+					$pe_queue = substr($pe_queue, 5);
+				}
+			} else {
+				$pe_queue = $pe_queue_null;
+				$pe_queue_null = '';
+			}
+			echo "    <tr>
+                                  <td><a href=qstat_job.php?jobid=$pe_job_num&owner=$owner>$pe_job_num</a></td>
+                                  <td><a href=qstat_user.php?owner=$pe_owner>$pe_owner</a></td>
+                                  <td>$pe_prio</td>
+                                  <td>$pe_job_name</td>
+                                  <td>$pe_state</td>
+                                  <td>$pe_project</td>
+                                  <td>$pe_queue</a></td>
+                                  <td>$pe_start</td>
+                                  <td>$pe</td>
+                                  <td>$slots</td>
+                                  </tr>";
+			$pe_job_num='';
+			$pe_queue='';
+		}
+	  }
 	  if ($job_list->state != 'r') {
 	    continue;
 	  }
@@ -94,7 +122,27 @@ function show_run($qstat,$owner,$queue) {
 	    continue;
 	  }
 	  $pe=$job_list->requested_pe['name'];
+	  $job_num=$job_list->JB_job_number;
 	  $JAT_start=str_replace('T', ' ', $job_list->JAT_start_time);
+	  if (isset($job_list->granted_pe)) {
+		// parallel job
+		$pe_job_num=$job_list->JB_job_number;
+		$slots=$job_list->granted_pe;
+		$pe_owner=$job_list->JB_owner;
+		$pe_prio=$job_list->JAT_prio;
+		$pe_job_name=$job_list->JB_name;
+		$pe_state=$job_list->state;
+		$pe_project=$job_list->JB_project;
+		$pe_start=$JAT_start;
+		if ($UGE == "yes") {
+			$pe_queue_null="<a href=qstat_user.php?queue=$job_list->queue_name&owner=$owner>" . $job_list->queue_name . "</a>";
+		} else {
+			$pe_queue="<a href=qstat_user.php?queue=$job_list->queue_name&owner=$owner>" . $job_list->queue_name . "</a>";
+		}
+		continue;
+	  } else {
+		$slots=$job_list->slots;
+	  }
 	  echo "          <tr>
 			  <td><a href=qstat_job.php?jobid=$job_list->JB_job_number&owner=$owner>$job_list->JB_job_number</a></td>
 			  <td><a href=qstat_user.php?owner=$job_list->JB_owner>$job_list->JB_owner</a></td>
@@ -105,16 +153,31 @@ function show_run($qstat,$owner,$queue) {
 			  <td><a href=qstat_user.php?queue=$job_list->queue_name&owner=$owner>$job_list->queue_name</a></td>
 			  <td>$JAT_start</td>
 			  <td>$pe</td>
-			  <td>$job_list->slots</td>
+			  <td>$slots</td>
 			  </tr>";
+  }
+  if ($pe_job_num) {
+	$pe_queue = substr($pe_queue, 5);
+	echo "    <tr>
+                  <td><a href=qstat_job.php?jobid=$pe_job_num&owner=$owner>$pe_job_num</a></td>
+                  <td><a href=qstat_user.php?owner=$pe_owner>$pe_owner</a></td>
+                  <td>$pe_prio</td>
+                  <td>$pe_job_name</td>
+                  <td>$pe_state</td>
+                  <td>$pe_project</td>
+                  <td>$pe_queue</a></td>
+                  <td>$pe_start</td>
+                  <td>$pe</td>
+                  <td>$slots</td>
+                  </tr>";
+	$pe_job_num='';
+	$pe_queue='';
   }
   echo "</tbody></table><br><br>";
 
 }
 
 function show_pend($qstat,$owner,$queue) {
-  global $qstat_reduce;
-  global $token;
   echo "<table id=\"pendingtable\" class=\"display\" align=center cellspacing=\"0\" width=\"100%\">
 	  <thead>
 		  <tr>
@@ -143,10 +206,6 @@ function show_pend($qstat,$owner,$queue) {
 		  <th>Slots</th>
 		  </tr></tfoot><tbody>";
 
-  if ($qstat_reduce != "yes" ) {
-  	$qstat = simplexml_load_file("$token");
-  }
-  
   foreach ($qstat->xpath('//job_list') as $job_list) {
           if ($job_list->state != 'qw') {
 	    continue;
@@ -158,6 +217,12 @@ function show_pend($qstat,$owner,$queue) {
 	    continue;
 	  }
 	  $pe=$job_list->requested_pe['name'];
+	  if (isset($job_list->hard_req_queue)) {
+		$queue_req=$job_list->hard_req_queue;
+	  } else {
+		$queue_req='';
+	  }
+	  $job_num=$job_list->JB_job_number;
 	  $JB_submission=str_replace('T', ' ', $job_list->JB_submission_time);
 	  echo "          <tr>
 			  <td><a href=qstat_job.php?jobid=$job_list->JB_job_number&owner=$owner>$job_list->JB_job_number</a></td>
@@ -194,6 +259,7 @@ if ($qstat_reduce == "yes" ) {
 }
 
 switch ($jobstat) {
+    // All this stuff can probably go away
     case "r":
         $jobstatflag="-s r";
 	if ($qstat_reduce != "yes" ) {
@@ -215,6 +281,7 @@ switch ($jobstat) {
 	}
         break;
     default:
+/*
         $jobstatflag="-s r";
 	if ($qstat_reduce != "yes" ) {
 	        $out = exec("./gexml -u $owner $jobstatflag $queueflag -o $token");
@@ -232,7 +299,19 @@ switch ($jobstat) {
 	} else {
         	show_pend($qstat,$owner,$queue);
 	}
+*/
+	if ($qstat_reduce != "yes" ) {
+		$out = exec("./gexml -u $owner $queueflag -o $token");
+		$qstat = simplexml_load_file("$token");
+		show_run($qstat,$owner,$queue);
+		show_pend($qstat,$owner,$queue);
+		unlink($token);
+	} else {
+		show_run($qstat,$owner,$queue);
+		show_pend($qstat,$owner,$queue);
+	}
         break;
+
 }
 
 ?>

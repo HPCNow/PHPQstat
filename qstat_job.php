@@ -108,6 +108,20 @@ if (!$job_slots) {
 	$job_slots=1;
 }
 
+if ($job_pe) {
+	if ($UGE == "yes") {
+		$job_qn='';
+		foreach ($qstat->xpath('//JAT_granted_destin_identifier_list/element') as $queue_element) {
+			$cn_slots=$queue_element->JG_slots;
+			while ($cn_slots > 0) {
+				$job_qn=$job_qn . "<br/>" . $queue_element->JG_qname;
+				$cn_slots=$cn_slots - 1;
+			}
+		}
+		$job_qn = substr($job_qn, 5);
+	}
+}
+
 echo "	<table id=\"jobtable\" class=\"display\" align=left cellspacing=\"0\" width=\"100%\">
         <thead>
 		<tr>
