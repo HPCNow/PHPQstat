@@ -50,6 +50,7 @@ if ($qstat_reduce != "yes" ) {
 }
 
 function show_run($qstat,$owner,$queue) {
+  global $UGE;
   echo "<table id=\"jobtable\" class=\"display\" align=center cellspacing=\"0\" width=\"100%\">
 	  <thead>
 		  <tr>
@@ -81,21 +82,23 @@ function show_run($qstat,$owner,$queue) {
 
   $pe_job_num='';
   $pe_queue='';
-  $pe_queue_null='';
   foreach ($qstat->xpath('//job_list') as $job_list) {
+	  if ($job_list->state != 'r') {
+	    continue;
+	  }
+	  if ($owner != "all" && $job_list->JB_owner != $owner) {
+	    continue;
+	  }
+	  if ($queue != "" && $job_list->queue_name != $queue) {
+	    continue;
+	  }
+
 	  if ($pe_job_num) {
 		if ("$job_list->JB_job_number" == "$pe_job_num") {
 			$pe_queue=$pe_queue . "<br/><a href=qstat_user.php?queue=$job_list->queue_name&owner=$owner>" . $job_list->queue_name . "</a>";
 			continue;
 		} else {
-			if ($pe_queue) {
-				if ($UGE == "yes") {
-					$pe_queue = substr($pe_queue, 5);
-				}
-			} else {
-				$pe_queue = $pe_queue_null;
-				$pe_queue_null = '';
-			}
+			$pe_queue = substr($pe_queue, 5);
 			echo "    <tr>
                                   <td><a href=qstat_job.php?jobid=$pe_job_num&owner=$owner>$pe_job_num</a></td>
                                   <td><a href=qstat_user.php?owner=$pe_owner>$pe_owner</a></td>
@@ -112,15 +115,6 @@ function show_run($qstat,$owner,$queue) {
 			$pe_queue='';
 		}
 	  }
-	  if ($job_list->state != 'r') {
-	    continue;
-	  }
-	  if ($owner != "all" && $job_list->JB_owner != $owner) {
-	    continue;
-	  }
-	  if ($queue != "" && $job_list->queue_name != $queue) {
-	    continue;
-	  }
 	  $pe=$job_list->requested_pe['name'];
 	  $job_num=$job_list->JB_job_number;
 	  $JAT_start=str_replace('T', ' ', $job_list->JAT_start_time);
@@ -134,11 +128,10 @@ function show_run($qstat,$owner,$queue) {
 		$pe_state=$job_list->state;
 		$pe_project=$job_list->JB_project;
 		$pe_start=$JAT_start;
-		if ($UGE == "yes") {
-			$pe_queue_null="<a href=qstat_user.php?queue=$job_list->queue_name&owner=$owner>" . $job_list->queue_name . "</a>";
-		} else {
-			$pe_queue="<a href=qstat_user.php?queue=$job_list->queue_name&owner=$owner>" . $job_list->queue_name . "</a>";
+		if ($UGE == "yes" && $job_list->master == "MASTER") {
+			continue;
 		}
+		$pe_queue="<br/><a href=qstat_user.php?queue=$job_list->queue_name&owner=$owner>" . $job_list->queue_name . "</a>";
 		continue;
 	  } else {
 		$slots=$job_list->slots;
