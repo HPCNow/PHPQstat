@@ -200,7 +200,7 @@ function show_pend($qstat,$owner,$queue) {
 		  </tr></tfoot><tbody>";
 
   foreach ($qstat->xpath('//job_list') as $job_list) {
-          if ($job_list->state != 'qw') {
+          if ($job_list->state != 'qw' && $job_list->state != 'Eqw') {
 	    continue;
 	  }
 	  if ($owner != "all" && $job_list->JB_owner != $owner) {
@@ -217,6 +217,11 @@ function show_pend($qstat,$owner,$queue) {
 	  }
 	  $job_num=$job_list->JB_job_number;
 	  $JB_submission=str_replace('T', ' ', $job_list->JB_submission_time);
+	  if ($job_list->state == 'Eqw') {
+		$state = "<font color=red>" . $job_list->state . "</font>";
+	  } else {
+		$state = $job_list->state;
+	  }
 	  echo "          <tr>
 			  <td><a href=qstat_job.php?jobid=$job_list->JB_job_number&owner=$owner>$job_list->JB_job_number</a></td>
 			  <td><a href=qstat_user.php?owner=$job_list->JB_owner>$job_list->JB_owner</a></td>
