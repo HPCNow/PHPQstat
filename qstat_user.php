@@ -218,7 +218,7 @@ function show_pend($qstat,$owner,$queue) {
 	  $job_num=$job_list->JB_job_number;
 	  $JB_submission=str_replace('T', ' ', $job_list->JB_submission_time);
 	  if ($job_list->state == 'Eqw') {
-		$state = "<font color=red>" . $job_list->state . "</font>";
+		$state = "<font color=red><b>" . $job_list->state . "</b></font>";
 	  } else {
 		$state = $job_list->state;
 	  }
