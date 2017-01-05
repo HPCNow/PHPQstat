@@ -124,11 +124,19 @@ $spen=0;
 $nzom=0;
 $szom=0;
 foreach ($jobs->xpath('//job_list') as $job_list) {
-$jobstatus=$job_list['state'];
+	$jobstatus=$job_list['state'];
 
 	if ($jobstatus == "running"){
-		$nrun++;
-		$srun=$srun+$job_list->slots;
+		if (isset($job_list->granted_pe)) {
+			if ($job_list->master == "MASTER") {
+				$nrun++;
+			} else {
+				$srun=$srun+$job_list->slots;
+			}
+		} else {
+			$nrun++;
+			$srun=$srun+$job_list->slots;
+		}
 	}
 	elseif ($jobstatus == "pending"){
 		$npen++;
