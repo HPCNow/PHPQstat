@@ -38,6 +38,10 @@ All Jobs on the cluster, both running and in queue, tables are sortable by field
 ![Alt text](https://cloud.githubusercontent.com/assets/4594964/21457203/5405e6b8-c8fb-11e6-9039-4af29a50761a.jpg "Job Status")
 
 
+All Jobs on the cluster with multiple parallel environment jobs with the new display scheme that shows all queues grouped with a single job.  
+![Alt text](https://cloud.githubusercontent.com/assets/4594964/22034925/fa44aec8-dcbb-11e6-9054-4e3c53f83569.jpg "Job Status with parallel environment jobs")
+
+
 Job information page displaying some details about a running job.
 ![Alt text](https://cloud.githubusercontent.com/assets/4594964/21457210/5d1d7108-c8fb-11e6-8609-79425139d3f2.jpg "Job Info")
 
@@ -103,10 +107,10 @@ INSTALL
 
 TODO LIST
 ==============================================
-* Add additional job information to job page
-* Admin page?
 * Add install script to take care of some of the tedium automatically
 * Add job accounting page and qstat_reduce functionality to allow users to view stats on completed jobs
+* Admin page - config variables, display options, project/department, etc
+* Add additional job information to job page
 * Completely replace rrdtool graphs with something pretty (grafana?)
 
 CHANGELOG
@@ -120,3 +124,4 @@ CHANGELOG
 * 0.2.2 Added qstat_reduce to cache xml files and only refesh based a time interval with high load average protection
 * 0.2.3 Added ability to run phpqstat on a webserver that is a submit host, eliminating the need to run on the sge_master node
 * 0.3.0 Added new HTML5 interface to fix look and feel as well as add functionality for users, This utilizes the excellent datatables and jquery-ui javascript libraries. Added UGE support option.
+* 0.3.1 Parallel environment jobs are now displayed in a single line with all active queues associated. Many other small bug fixes and improvments as well. Install instructions also updated.
