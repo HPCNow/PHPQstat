@@ -127,7 +127,7 @@ foreach ($jobs->xpath('//job_list') as $job_list) {
 	$jobstatus=$job_list['state'];
 
 	if ($jobstatus == "running"){
-		if (isset($job_list->granted_pe)) {
+		if ($UGE == "yes"  && isset($job_list->granted_pe)) {
 			if ($job_list->master == "MASTER") {
 				$nrun++;
 			} else {
