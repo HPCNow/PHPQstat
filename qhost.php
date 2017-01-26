@@ -4,57 +4,73 @@
   <title>PHPQstat</title>
   <meta name="AUTHOR" content="Jordi Blasco Pallares ">
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge" >
   <meta name="KEYWORDS" content="gridengine sge sun hpc supercomputing batch queue linux xml qstat qhost jordi blasco solnu">
-  <link rel="stylesheet" href="phpqstat.css" type="text/css" /> 
+  <link rel="stylesheet" type="text/css" href="jquery-ui.min.css"/>
+  <link rel="stylesheet" type="text/css" href="datatables.min.css"/>
+  <script type="text/javascript" src="datatables.min.js"></script>
+  <script type="text/javascript" class="init">
+    $(document).ready(function() {
+        $('#hosts').DataTable({
+          "paging": false,
+          "info": false,
+          "searching": true,
+        });
+    } );
+  </script>
+
 </head>
 
 <?php
 $owner  = $_GET['owner'];
-echo "<body><table align=center width=95% border=\"1\" cellpadding=\"0\" cellspacing=\"0\"><tbody>";
-echo "<tr><td><h1>PHPQstat</h1></td></tr>
-      <tr><td CLASS=\"bottom\" align=center><a href='index.php'>Home</a> *  <a href=\"qhost.php?owner=$owner\">Hosts status</a> *  <a href=\"qstat.php?owner=$owner\">Queue status</a> * <a href=\"qstat_user.php?owner=$owner\">Jobs status ($owner)</a> * <a href=\"about.php?owner=$owner\">About PHPQstat</a></td></tr>";
+echo "<body><table align=center width=100% border=\"0\" cellpadding=\"0\" cellspacing=\"0\"><tbody>";
+include("header.php");
+echo "<tr><td align=center>
+<a class='ui-button ui-widget ui-corner-all' href=\"index.php\">Home</a> 
+<a class='ui-button ui-widget ui-corner-all' href=\"qhost.php?owner=$owner\">Hosts status</a>
+<a class='ui-button ui-widget ui-corner-all' href=\"qstat.php?owner=$owner\">Queue status</a>
+<a class='ui-button ui-widget ui-corner-all' href=\"qstat_user.php?owner=$owner\">Jobs status ($owner)</a>
+<a class='ui-button ui-widget ui-corner-all' href=\"about.php?owner=$owner\">About PHPQstat</a>
+</td></tr>";
+
 ?>
     <tr>
       <td>
 <br>
 
 
-	<table align=center width=95% border="1" cellpadding="0" cellspacing="0">
-        <tbody>
-		<tr CLASS="header">
-		<td>Hostname</td>
-                <td>Architecture</td>
-                <td>NCPU</td>
-                <td>Load avg</td>
-                <td>mem_total</td>
-                <td>mem_used</td>
-                <td>swap_total</td>
-                <td>swap_used</td>
-                </tr>
+	<table id=hosts class="display" align=center width=100% border="0" cellpadding="0" cellspacing="0">
+        <thead>
+		<tr>
+		<th>Hostname</th>
+                <th>Architecture</th>
+                <th>NCPU</th>
+                <th>Load Average</th>
+                <th>Memory Total</th>
+                <th>Memory Used</th>
+                <th>Swap Total</th>
+                <th>Swap Used</th>
+                </tr></thead><tbody>
 <?php
-$password_length = 20;
+if ($qstat_reduce != "yes") {
+	$token = null;
+	$token = tempnam(sys_get_temp_dir(), 'PHPQstat-');
+	$out = exec("./qhostout $token");
 
-function make_seed() {
-  list($usec, $sec) = explode(' ', microtime());
-  return (float) $sec + ((float) $usec * 100000);
+	//printf("System Output: $out\n"); 
+	$qhost = simplexml_load_file("$token");
+} else {
+	$qhost = simplexml_load_file("/tmp/qhost.xml");
 }
 
-srand(make_seed());
-
-$alfa = "1234567890qwertyuiopasdfghjklzxcvbnmQWERTYUIOPASDFGHJKLZXCVBNM";
-$token = "";
-for($i = 0; $i < $password_length; $i ++) {
-  $token .= $alfa[rand(0, strlen($alfa))];
-}
-
-$out = exec("./qhostout /tmp/$token.xml");
-
-//printf("System Output: $out\n"); 
-$qhost = simplexml_load_file("/tmp/$token.xml");
 $i=0;
 foreach ($qhost->host as $host) {
-	echo "<tr>";
 	$hostname=$host['name'];
+	if ($hostname == "global") {
+		$i++;
+		continue;
+	}
+	echo "<tr>";
 	echo "          <td>$hostname</td>";
 	foreach ($qhost->host[$i] as $hostvalue) {
 		echo "          <td>$hostvalue</td>";
@@ -63,8 +79,10 @@ foreach ($qhost->host as $host) {
 	$i++;
 }
 
+if ($qstat_reduce != "yes") {
+	unlink($token);
+}
 
-exec("rm /tmp/$token.xml");
 ?>
 
 	  </tbody>

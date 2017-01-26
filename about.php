@@ -5,14 +5,22 @@
   <meta name="AUTHOR" content="Jordi Blasco Pallares ">
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
   <meta name="KEYWORDS" content="gridengine sge sun hpc supercomputing batch queue linux xml qstat qhost jordi blasco solnu">
-  <link rel="stylesheet" href="phpqstat.css" type="text/css" /> 
+  <link rel="stylesheet" type="text/css" href="jquery-ui.min.css"/>
+  <link rel="stylesheet" type="text/css" href="datatables.min.css"/> 
 </head>
 
 <?php
 $owner  = $_GET['owner'];
-echo "<body><table align=center width=95% border=\"1\" cellpadding=\"0\" cellspacing=\"0\"><tbody>";
-echo "<tr><td><h1>PHPQstat</h1></td></tr>
-      <tr><td CLASS=\"bottom\" align=center><a href='index.php'>Home</a> *  <a href=\"qhost.php?owner=$owner\">Hosts status</a> *  <a href=\"qstat.php?owner=$owner\">Queue status</a> * <a href=\"qstat_user.php?owner=$owner\">Jobs status ($owner)</a> * <a href=\"about.php?owner=$owner\">About PHPQstat</a></td></tr>";
+echo "<body><table align=center width=100% border=\"0\" cellpadding=\"0\" cellspacing=\"0\"><tbody>";
+include("header.php");
+echo "<tr><td align=center>
+<a class='ui-button ui-widget ui-corner-all' href=\"index.php\">Home</a> 
+<a class='ui-button ui-widget ui-corner-all' href=\"qhost.php?owner=$owner\">Hosts status</a>
+<a class='ui-button ui-widget ui-corner-all' href=\"qstat.php?owner=$owner\">Queue status</a>
+<a class='ui-button ui-widget ui-corner-all' href=\"qstat_user.php?owner=$owner\">Jobs status ($owner)</a>
+<a class='ui-button ui-widget ui-corner-all' href=\"about.php?owner=$owner\">About PHPQstat</a>
+</td></tr>";
+
 ?>
 
 
@@ -22,12 +30,17 @@ echo "<tr><td><h1>PHPQstat</h1></td></tr>
 <center>
 <table align=center width=50% border="0" cellpadding="0" cellspacing="0">
 <tr><td align=center>
-<b>PHPQstat</b> is a web interface that allows to connect to the usefull commands of the Grid Engine (GE) batch queue system. With this interface, you can monitor your job status and your queues health at real time.<br><br>
-<b>AUTHOR</b> Written by Jordi Blasco Pallarès.<br>
-<b>REPORTING BUGS</b> Report bugs to <a href=http://sourceforge.net/tracker/?group_id=306687 target=bugs>SourceForge Tracker</a><br>
-<b>LICENSE</b> This is free software: you are free to change and redistribute it. GNU General Public License version 3.0 (<a href=http://gnu.org/licenses/gpl.html target=gpl>GPLv3</a>).<br>
-<b>Version : 0.2.0 (February 2012)</b><br><br>
-<a href=http://phpqstat.sourceforge.net target=SF>http://phpqstat.sourceforge.net</a><br>
+<b>PHPQstat</b><br>A web interface to qstat and other useful commands of the Grid Engine (GE) batch queue system.<br>
+With this interface, you and your users can monitor your jobs and your queue status conveniently via a web browser.<br><br>
+<b>AUTHORS</b><br>
+HTML5 interface, UGE support and additional features added by Lydia Sevelt<br>
+Originally written by Jordi Blasco Pallarès.<br><br>
+<b>Additional libraries</b><br>
+HTML5 interface utilizes the excellent <a href=https://datatables.net>datatables</a> and <a href=https://jquery.com>jquery</a> javascript libraries.<br><br>
+<b>LICENSE</b><br>
+This is free software: you are free to change and redistribute it. GNU General Public License version 3.0 (<a href=http://gnu.org/licenses/gpl.html target=gpl>GPLv3</a>).<br><br>
+<b>Version : 0.3.0 (December 2016)</b><br>
+<a href=https://github.com/LydiaSevelt/PHPQstat>https://github.com/LydiaSevelt/PHPQstat</a><br>
 </td></tr>
 </table>
 </center>

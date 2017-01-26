@@ -54,6 +54,6 @@ do
 done
 
 
-qstat -xml -r $stateopt $queueopt $sw_R $sw_f $groupopt $useropt "$user" $erroropt $jobidopt > $out
+qstat -xml -ext -t -r $stateopt $queueopt $sw_R $sw_f $groupopt $useropt "$user" $erroropt $jobidopt > $out
 
 exit

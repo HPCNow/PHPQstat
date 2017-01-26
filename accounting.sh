@@ -6,7 +6,7 @@ source /var/www/PHPQstat/phpqstat.conf
 #########################################
 
 if ! [ -d $RRD_ROOT ]; then mkdir -p $RRD_ROOT; fi
-#QUEUES=$(qconf -sql | cut -d. -f1)
+QUEUES=$(qconf -sql | cut -d. -f1)
 
 # Inici BBDD
 #################
@@ -56,7 +56,7 @@ DATE=$(date '+%a %b %-d %H\:%M\:%S %Z %Y')
 unset datagrups
 i=0 
 for q in $QUEUES; do
- datagrups="$datagrups DEF:${q}-used=$RRD_ROOT/qacct_${q}.rrd:${q}-used:AVERAGE LINE1:${q}-used#${COLOR[${i}]}:${q} "
+ datagrups="$datagrups DEF:${q}-used=$RRD_ROOT/qacct_${q}.rrd:${q}-used:AVERAGE LINE2:${q}-used#${COLOR[${i}]}:${q} "
  datagrups="$datagrups GPRINT:${q}-used:MIN:%12.0lf%s"
  datagrups="$datagrups GPRINT:${q}-used:MAX:%12.0lf%s"
  datagrups="$datagrups GPRINT:${q}-used:AVERAGE:%12.0lf%s\\l"
@@ -64,17 +64,20 @@ for q in $QUEUES; do
 done
 
 # Queue Waiting
- datagrups="$datagrups DEF:slots-qw=$RRD_ROOT/qacct_qw.rrd:slots-qw:AVERAGE LINE1:slots-qw#${COLOR[${i}]}:slots-qw"
+ datagrups="$datagrups DEF:slots-qw=$RRD_ROOT/qacct_qw.rrd:slots-qw:AVERAGE LINE2:slots-qw#${COLOR[${i}]}:slots-qw"
  datagrups="$datagrups GPRINT:slots-qw:MIN:%12.0lf%s"
  datagrups="$datagrups GPRINT:slots-qw:MAX:%12.0lf%s"
  datagrups="$datagrups GPRINT:slots-qw:AVERAGE:%12.0lf%s\\l"
 
-rrdtool graph $WEB_ROOT/img/hour.png -a PNG -s -1hour -t "HPC Accounting (hourly)" -h 200 -w 600 -v "Used CPU's" COMMENT:"                   Min Used" COMMENT:"   Max Used"  COMMENT:"    Avg Used \\l" $datagrups COMMENT:"Last update\: $DATE" > /dev/null
+HEIGHT=200
+WIDTH=600
+ 
+rrdtool graph $WEB_ROOT/img/hour.png -a PNG -s -1hour -t "HPC Accounting (hourly)" -h  $HEIGHT -w  $WIDTH -v "Used CPU's" COMMENT:"                   Min Used" COMMENT:"   Max Used"  COMMENT:"    Avg Used \\l" $datagrups COMMENT:"Last update\: $DATE" > /dev/null
 
-rrdtool graph $WEB_ROOT/img/day.png -a PNG -s -1day -t "HPC Accounting (daily)" -h 200 -w 600 -v "Used CPU's" COMMENT:"             Min Used" COMMENT:"   Max Used"  COMMENT:"    Avg Used \\l" $datagrups COMMENT:"Last update\: $DATE" > /dev/null
+rrdtool graph $WEB_ROOT/img/day.png -a PNG -s -1day -t "HPC Accounting (daily)" -h $HEIGHT -w $WIDTH -v "Used CPU's" COMMENT:"             Min Used" COMMENT:"   Max Used"  COMMENT:"    Avg Used \\l" $datagrups COMMENT:"Last update\: $DATE" > /dev/null
 
-rrdtool graph $WEB_ROOT/img/week.png -a PNG -s -1week -t "HCP Accounting (Weekly)" -h 200 -w 600 -v "Used CPU's" COMMENT:"             Min Used" COMMENT:"   Max Used"  COMMENT:"    Avg Used \\l" $datagrups COMMENT:"Last update\: $DATE" > /dev/null
+rrdtool graph $WEB_ROOT/img/week.png -a PNG -s -1week -t "HPC Accounting (Weekly)" -h $HEIGHT -w $WIDTH -v "Used CPU's" COMMENT:"             Min Used" COMMENT:"   Max Used"  COMMENT:"    Avg Used \\l" $datagrups COMMENT:"Last update\: $DATE" > /dev/null
 
-rrdtool graph $WEB_ROOT/img/month.png -a PNG -s -1month -t "HPC Accounting (Monthly)" -h 200 -w 600 -v "Used CPU's" COMMENT:"             Min Used" COMMENT:"   Max Used"  COMMENT:"    Avg Used \\l" $datagrups COMMENT:"Last update\: $DATE" > /dev/null
+rrdtool graph $WEB_ROOT/img/month.png -a PNG -s -1month -t "HPC Accounting (Monthly)" -h $HEIGHT -w $WIDTH -v "Used CPU's" COMMENT:"             Min Used" COMMENT:"   Max Used"  COMMENT:"    Avg Used \\l" $datagrups COMMENT:"Last update\: $DATE" > /dev/null
 
-rrdtool graph $WEB_ROOT/img/year.png -a PNG -s -1year -t "HPC Accounting (Yearly)" -h 200 -w 600 -v "Used CPU's" COMMENT:"       Min Used" COMMENT:"   Max Used"  COMMENT:"    Avg Used \\l" $datagrups  COMMENT:"Last update\: $DATE" > /dev/null
+rrdtool graph $WEB_ROOT/img/year.png -a PNG -s -1year -t "HPC Accounting (Yearly)" -h $HEIGHT -w $WIDTH -v "Used CPU's" COMMENT:"       Min Used" COMMENT:"   Max Used"  COMMENT:"    Avg Used \\l" $datagrups  COMMENT:"Last update\: $DATE" > /dev/null

@@ -10,11 +10,12 @@
 </head>
 <body>
 <br><br><br><br><br><br><br>
-<table align=center width=30% border="1" cellpadding="0" cellspacing="0">
+<table align=center width=30% border="0" cellpadding="0" cellspacing="0">
   <tbody>
     <tr>
       <td align=center><h1>PHPQstat</h1></td>
     </tr>
+      <tr><td align="middle"><img src="img/logo.png"></td></tr>
     <tr>
       <td align=center>
       <FORM ACTION=qstat.php METHOD=GET> 
@@ -22,15 +23,6 @@
       </FORM>  
       </td>
     </tr>
-
-
-    <tr> 
-      <td align=center CLASS="bottom"> 
-	version : 0.2.0 (February 2012)<br>
-        <a href="http://phpqstat.sourceforge.net">http://phpqstat.sourceforge.net</a><br> 
-      </td> 
-    </tr> 
-
 
   </tbody>
 </table>
